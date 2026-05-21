@@ -224,3 +224,49 @@
                 container.innerHTML += cardHtml;
             });
         }
+
+        function openModal() { document.getElementById('addModal').classList.add('active'); }
+        function closeModal() { document.getElementById('addModal').classList.remove('active'); }
+
+        function saveMember() {
+            const name = document.getElementById('in-name').value.trim();
+            if(!name) { alert("名前を入力してくれ！"); return; }
+            
+            const nextId = memberList.length > 0 ? Math.max(...memberList.map(m => m.id)) + 1 : 1;
+            const newMember = {
+                id: nextId,
+                avatar: document.getElementById('in-avatar').value || "⚽", name: name, username: document.getElementById('in-username').value || "@username",
+                followers: parseInt(document.getElementById('in-followers').value) || 0, followersTxt: document.getElementById('in-followersTxt').value || "0",
+                likes: parseInt(document.getElementById('in-likes').value) || 0, likesTxt: document.getElementById('in-likesTxt').value || "0",
+                following: document.getElementById('in-following').value || "0", tiktokUrl: document.getElementById('in-url').value || "https://www.tiktok.com/",
+                bioJa: document.getElementById('in-bioJa').value.replace(/\n/g, '<br>') || "紹介文なし", bioEn: document.getElementById('in-bioEn').value.replace(/\n/g, '<br>') || "No description"
+            };
+
+            // 🚀 直接シンガポールのデータ倉庫（Firebase）にぶち込む！
+            database.ref('members/' + nextId).set(newMember);
+
+            closeModal();
+            document.getElementById('in-name').value = ''; document.getElementById('in-username').value = ''; document.getElementById('in-followers').value = ''; document.getElementById('in-followersTxt').value = ''; document.getElementById('in-likes').value = ''; document.getElementById('in-likesTxt').value = ''; document.getElementById('in-bioJa').value = ''; document.getElementById('in-bioEn').value = '';
+        }
+
+        function toggleSettings() { document.getElementById('settingsPanel').classList.toggle('open'); }
+        function changeLayout(type) {
+            const container = document.getElementById('mainContainer');
+            if (type === 'grid') { container.classList.replace('layout-slim', 'layout-grid'); document.getElementById('btn-grid').classList.add('active'); document.getElementById('btn-slim').classList.remove('active'); }
+            else { container.classList.replace('layout-grid', 'layout-slim'); document.getElementById('btn-slim').classList.add('active'); document.getElementById('btn-grid').classList.remove('active'); }
+        }
+        function sortCards(criteria, btn) {
+            if (criteria === 'followers') memberList.sort((a, b) => b.followers - a.followers);
+            else if (criteria === 'likes') memberList.sort((a, b) => b.likes - a.likes);
+            else memberList.sort((a, b) => a.id - b.id);
+            renderCards(); btn.parentElement.querySelectorAll('.select-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+        }
+        function changeTheme(theme, btn) { document.body.setAttribute('data-theme', theme); btn.parentElement.querySelectorAll('.select-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
+        function changeLang(lang, btn) {
+            currentLang = lang; const data = staticLangData[lang];
+            document.getElementById('main-title').innerHTML = data.title; document.getElementById('main-sub').innerText = data.sub; document.getElementById('set-view-title').innerText = data.viewTitle; document.getElementById('set-sort-title').innerText = data.sortTitle; document.getElementById('set-theme-title').innerText = data.themeTitle; document.getElementById('set-lang-title').innerText = data.langTitle; document.getElementById('set-admin-title').innerText = data.adminTitle;
+            renderCards(); btn.parentElement.querySelectorAll('.select-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+        }
+    </script>
+</body>
+</html>
