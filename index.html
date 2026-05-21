@@ -1,1 +1,226 @@
-<!DOCTYPE html> <html lang="ja"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>フットボールコミュニティJP</title> <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script> <style> :root { --bg-color: #030712; --text-color: #ffffff; --card-bg: rgba(6, 11, 25, 0.6); --neon-cyan: #00ffcc; --neon-pink: #ff007f; } body { background-color: var(--bg-color); color: var(--text-color); font-family: sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; } .header { width: 100%; text-align: center; margin-bottom: 20px; } .container { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: 100%; max-width: 800px; } .card { background: var(--card-bg); border: 1px solid rgba(0, 255, 204, 0.2); border-radius: 12px; padding: 20px; width: 300px; position: relative; } /* 削除ボタンを右上に配置 */ .del-btn { position: absolute; top: 10px; right: 10px; background: rgba(255, 0, 0, 0.2); border: none; color: #ff4444; border-radius: 4px; padding: 4px 8px; font-size: 10px; cursor: pointer; display: none; } .admin-input-box { margin-bottom: 20px; padding: 10px; border-radius: 6px; border: 1px solid var(--neon-cyan); background: #000; color: #fff; } .btn { display: block; background: var(--neon-cyan); color: #000; text-align: center; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 10px; } </style> </head> <body> <div class="header"> <h1>⚽ COMMUNITY JP</h1> <input type="password" id="adminCodeInput" class="admin-input-box" placeholder="管理者コードを入力..." oninput="checkAdminCode()"> </div> <div class="container" id="mainContainer"></div> <script> const firebaseConfig = { databaseURL: "https://footballcommunityjp-default-rtdb.asia-southeast1.firebasedatabase.app/", projectId: "footballcommunityjp" }; firebase.initializeApp(firebaseConfig); const database = firebase.database(); const SECRET_ADMIN_CODE = "nitbskean"; // データ読み込み database.ref('members').on('value', (snapshot) => { const container = document.getElementById('mainContainer'); container.innerHTML = ''; const data = snapshot.val(); if(!data) return; Object.values(data).forEach(m => { const card = document.createElement('div'); card.className = 'card'; card.innerHTML = ` <button class="del-btn" onclick="deleteMember(${m.id})">DELETE</button> <h3>${m.name}</h3> <p>${m.username}</p> <a href="${m.tiktokUrl}" class="btn" target="_blank">TikTok</a> `; container.appendChild(card); }); }); // 削除ボタンの表示切り替え function checkAdminCode() { const input = document.getElementById('adminCodeInput').value; const btns = document.querySelectorAll('.del-btn'); btns.forEach(b => b.style.display = (input === SECRET_ADMIN_CODE) ? 'block' : 'none'); } // 削除処理 function deleteMember(id) { if(confirm("本当にこのメンバーを消すか？後戻りはできないぞ！")) { database.ref('members/' + id).remove(); } } </script> </body> </html>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>フットボールコミュニティJP</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        /* --- テーマ定義（CSS変数） --- */
+        :root {
+            --bg-color: #030712;
+            --bg-image: linear-gradient(rgba(0, 255, 204, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 204, 0.03) 1px, transparent 1px), radial-gradient(circle at 20% 35%, rgba(0, 122, 255, 0.15) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(255, 0, 127, 0.12) 0%, transparent 45%);
+            --text-color: #ffffff; --card-bg: rgba(6, 11, 25, 0.6); --card-border: rgba(0, 255, 204, 0.15); --sub-text: #475569; --panel-bg: rgba(10, 17, 36, 0.98); --neon-cyan: #00ffcc; --neon-pink: #ff007f; --neon-blue: #0077ff;
+        }
+        [data-theme="dark"] { --bg-color: #000000; --bg-image: none; --text-color: #ffffff; --card-bg: #0c0c0c; --card-border: #222222; --sub-text: #64748b; --panel-bg: #111111; --neon-cyan: #ffffff; --neon-pink: #555555; --neon-blue: #333333; }
+        [data-theme="light"] { --bg-color: #f1f5f9; --bg-image: linear-gradient(rgba(0, 122, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 122, 255, 0.03) 1px, transparent 1px); --text-color: #0f172a; --card-bg: rgba(255, 255, 255, 0.9); --card-border: rgba(0, 122, 255, 0.2); --sub-text: #94a3b8; --panel-bg: rgba(255, 255, 255, 0.98); --neon-cyan: #0077ff; --neon-pink: #ff0055; --neon-blue: #00ddff; }
+        body { background-color: var(--bg-color); background-image: var(--bg-image); background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%; background-attachment: fixed; color: var(--text-color); font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: background 0.5s ease, color 0.5s ease; -webkit-tap-highlight-color: transparent; padding-bottom: 100px; }
+        .header { background: rgba(3, 7, 18, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); width: 100%; padding: 30px 20px; text-align: center; box-sizing: border-box; border-bottom: 2px solid var(--card-border); position: relative; z-index: 1000; box-shadow: 0 4px 30px rgba(0, 255, 204, 0.05); }
+        .header h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: 3px; padding-right: 40px; padding-left: 40px; background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(0, 255, 204, 0.3); }
+        .header p { margin: 10px 0 0 0; color: var(--sub-text); font-size: 12px; letter-spacing: 1px; }
+        .settings-toggle { position: absolute; top: 24px; right: 20px; font-size: 22px; background: none; border: none; color: var(--text-color); cursor: pointer; transition: transform 0.3s ease, text-shadow 0.3s; z-index: 10001; padding: 5px; }
+        .settings-toggle:hover { transform: rotate(45deg); text-shadow: 0 0 10px var(--neon-cyan); }
+        .settings-panel { position: absolute; top: 65px; right: 15px; background: var(--panel-bg); border: 2px solid var(--neon-cyan); border-radius: 16px; padding: 16px; display: none; flex-direction: column; gap: 15px; box-shadow: 0 0 25px rgba(0, 255, 204, 0.2), inset 0 0 15px rgba(0, 255, 204, 0.1); z-index: 99999; width: 220px; max-height: 430px; overflow-y: auto; box-sizing: border-box; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .settings-panel.open { display: flex; }
+        .setting-section h3 { margin: 0 0 8px 0; font-size: 11px; color: var(--neon-cyan); letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 0 5px rgba(0, 255, 204, 0.5); }
+        .btn-group { display: flex; gap: 4px; flex-wrap: wrap; }
+        .select-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(0, 255, 204, 0.3); color: var(--text-color); padding: 6px 8px; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: bold; transition: all 0.2s; flex: 1; min-width: 50px; text-align: center; }
+        .select-btn.active { background: var(--neon-cyan); color: #030712; border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 255, 204, 0.6); }
+        .admin-input-box { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(0, 255, 204, 0.3); border-radius: 6px; padding: 6px; color: white; font-size: 11px; width: 100%; box-sizing: border-box; }
+        .container { max-width: 1200px; width: 100%; padding: 30px 15px; box-sizing: border-box; display: flex; transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); position: relative; z-index: 1; }
+        .container.layout-slim { flex-direction: column; gap: 20px; max-width: 1000px; }
+        .container.layout-grid { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 25px; max-width: 1200px; }
+        .card { background: var(--card-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; width: 100%; position: relative; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), max-width 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, box-shadow 0.3s; }
+        .card::before, .card::after { content: ""; position: absolute; width: 12px; height: 12px; transition: all 0.3s ease; pointer-events: none; }
+        .card::before { top: 0; left: 0; border-top: 3px solid var(--neon-cyan); border-left: 3px solid var(--neon-cyan); }
+        .card::after { bottom: 0; right: 0; border-bottom: 3px solid var(--neon-pink); border-right: 3px solid var(--neon-pink); }
+        .container.layout-slim .card { max-width: 100%; }
+        .container.layout-grid .card { max-width: 340px; }
+        .card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 25px rgba(0, 255, 204, 0.25), inset 0 0 15px rgba(0, 255, 204, 0.05); }
+        .container.layout-slim .card:hover { transform: scale(1.01) translateX(5px); }
+        .container.layout-grid .card:hover { transform: translateY(-8px) scale(1.02); }
+        .card-body { padding: 22px; display: flex; align-items: center; justify-content: space-between; gap: 15px; position: relative; z-index: 2; }
+        .container.layout-slim .card-body { flex-direction: row; padding: 16px 22px; text-align: left; overflow-x: auto; }
+        .container.layout-grid .card-body { flex-direction: column; text-align: center; padding: 28px 22px; }
+        .avatar-box { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--neon-cyan); background: rgba(3, 7, 18, 0.8); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 0 10px rgba(0, 255, 204, 0.2); transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+        .container.layout-grid .avatar-box { width: 85px; height: 85px; font-size: 38px; }
+        .profile-info { display: flex; flex-direction: column; min-width: 110px; flex-shrink: 0; }
+        .container.layout-grid .profile-info { align-items: center; }
+        .name { font-size: 18px; font-weight: 700; margin: 0; letter-spacing: 0.5px; text-shadow: 0 0 5px rgba(255,255,255,0.1); }
+        .container.layout-grid .name { font-size: 22px; }
+        .username { font-size: 11px; color: var(--sub-text); margin-top: 3px; letter-spacing: 0.5px; }
+        .container.layout-grid .username { margin-bottom: 15px; }
+        .stats { display: flex; background: rgba(0, 0, 0, 0.4); padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(0, 255, 204, 0.1); flex-shrink: 0; }
+        .container.layout-slim .stats { gap: 15px; }
+        .container.layout-grid .stats { width: 100%; box-sizing: border-box; justify-content: space-between; margin-bottom: 15px; padding: 12px; }
+        .stat-item { text-align: center; }
+        .container.layout-slim .stat-item { min-width: 55px; }
+        .container.layout-grid .stat-item { flex: 1; }
+        .stat-value { font-size: 13px; font-weight: 700; color: var(--neon-cyan); text-shadow: 0 0 8px rgba(0, 255, 204, 0.4); }
+        .bio { font-size: 12px; color: #e2e8f0; line-height: 1.6; text-align: left; background: rgba(0, 0, 0, 0.3); padding: 10px 14px; border-radius: 8px; border-left: 3px solid var(--neon-pink); box-sizing: border-box; transition: all 0.5s ease; }
+        .container.layout-slim .bio { flex: 1; min-width: 180px; }
+        .container.layout-grid .bio { width: 100%; margin-bottom: 15px; }
+        .btn { display: block; background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue)); color: #030712; text-decoration: none; font-weight: 800; font-size: 11px; text-align: center; padding: 10px 18px; border-radius: 6px; box-shadow: 0 4px 15px rgba(0, 255, 204, 0.2); letter-spacing: 1px; transition: all 0.3s ease; flex-shrink: 0; white-space: nowrap; }
+        .container.layout-grid .btn { width: 100%; padding: 12px; font-size: 12px; }
+        .admin-add-button { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--neon-pink), #ff0055); border: 2px solid #ffffff; color: white; font-size: 32px; font-weight: bold; display: none; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 127, 0.6); z-index: 9999; transition: transform 0.2s, box-shadow 0.2s; }
+        .admin-add-button.visible { display: flex; }
+        .admin-add-button:hover { transform: scale(1.1) rotate(90deg); box-shadow: 0 0 30px rgba(255, 0, 127, 0.9); }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 100000; }
+        .modal-overlay.active { display: flex; }
+        .modal-content { background: var(--panel-bg); border: 2px solid var(--neon-cyan); border-radius: 16px; padding: 25px; width: 90%; max-width: 400px; box-shadow: 0 0 30px rgba(0, 255, 204, 0.3); box-sizing: border-box; max-height: 90vh; overflow-y: auto; }
+        .modal-content h2 { margin: 0 0 20px 0; font-size: 18px; color: var(--neon-cyan); text-align: center; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+        .form-group label { font-size: 11px; color: var(--sub-text); font-weight: bold; }
+        .form-group input, .form-group textarea { background: rgba(0,0,0,0.5); border: 1px solid var(--card-border); border-radius: 6px; padding: 10px; color: white; font-size: 13px; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .modal-btn { flex: 1; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; border: none; }
+        .modal-btn.cancel { background: #334155; color: white; }
+        .modal-btn.save { background: var(--neon-cyan); color: #030712; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <button class="settings-toggle" onclick="toggleSettings()">⚙️</button>
+        <div class="settings-panel" id="settingsPanel">
+            <div class="setting-section">
+                <h3 id="set-admin-title">ADMIN CODE</h3>
+                <input type="password" id="adminCodeInput" class="admin-input-box" placeholder="コードを入力..." oninput="checkAdminCode()">
+            </div>
+            <div class="setting-section">
+                <h3 id="set-view-title">DISPLAY</h3>
+                <div class="btn-group">
+                    <button class="select-btn active" id="btn-slim" onclick="changeLayout('slim')">SLIM</button>
+                    <button class="select-btn" id="btn-grid" onclick="changeLayout('grid')">GRID</button>
+                </div>
+            </div>
+            <div class="setting-section">
+                <h3 id="set-sort-title">SORT</h3>
+                <div class="btn-group">
+                    <button class="select-btn active" id="btn-sort-default" onclick="sortCards('default', this)">DEFAULT</button>
+                    <button class="select-btn" id="btn-sort-followers" onclick="sortCards('followers', this)">FOLLOWER</button>
+                    <button class="select-btn" id="btn-sort-likes" onclick="sortCards('likes', this)">LIKE</button>
+                </div>
+            </div>
+            <div class="setting-section">
+                <h3 id="set-theme-title">THEME</h3>
+                <div class="btn-group">
+                    <button class="select-btn active" onclick="changeTheme('cyber', this)">CYBER</button>
+                    <button class="select-btn" onclick="changeTheme('dark', this)">DARK</button>
+                    <button class="select-btn" onclick="changeTheme('light', this)">LIGHT</button>
+                </div>
+            </div>
+            <div class="setting-section">
+                <h3 id="set-lang-title">LANGUAGE</h3>
+                <div class="btn-group">
+                    <button class="select-btn active" onclick="changeLang('ja', this)">JA</button>
+                    <button class="select-btn" onclick="changeLang('en', this)">EN</button>
+                </div>
+            </div>
+        </div>
+        <h1 id="main-title">⚽ FOOTBALL COMMUNITY JP</h1>
+        <p id="main-sub">サッカー界隈の凄腕編集者やプレイヤー特設紹介サイト</p>
+    </div>
+
+    <div class="container layout-slim" id="mainContainer"></div>
+    <button class="admin-add-button" id="adminAddBtn" onclick="openModal()">+</button>
+
+    <div class="modal-overlay" id="addModal">
+        <div class="modal-content">
+            <h2>NEW MEMBER CREATOR</h2>
+            <div class="form-group"><label>絵文字 (AVATAR)</label><input type="text" id="in-avatar" value="⚽"></div>
+            <div class="form-group"><label>名前 (NAME)</label><input type="text" id="in-name" placeholder="例: ネイマール"></div>
+            <div class="form-group"><label>ユーザー名 (USERNAME)</label><input type="text" id="in-username" placeholder="例: @neymarjr"></div>
+            <div class="form-group"><label>フォロワー数（半角数字）</label><input type="number" id="in-followers" placeholder="50000"></div>
+            <div class="form-group"><label>フォロワー数（表示文字）</label><input type="text" id="in-followersTxt" placeholder="50K"></div>
+            <div class="form-group"><label>いいね数（半角数字）</label><input type="number" id="in-likes" placeholder="1000000"></div>
+            <div class="form-group"><label>いいね数（表示文字）</label><input type="text" id="in-likesTxt" placeholder="1M"></div>
+            <div class="form-group"><label>フォロー中</label><input type="text" id="in-following" value="0"></div>
+            <div class="form-group"><label>TikTokリンク</label><input type="text" id="in-url" value="https://www.tiktok.com/"></div>
+            <div class="form-group"><label>自己紹介文 [日本語]</label><textarea id="in-bioJa" rows="2"></textarea></div>
+            <div class="form-group"><label>自己紹介文 [英語]</label><textarea id="in-bioEn" rows="2"></textarea></div>
+            <div class="modal-actions">
+                <button class="modal-btn cancel" onclick="closeModal()">CANCEL</button>
+                <button class="modal-btn save" onclick="saveMember()">CREATE</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // =================================================================
+        // 🔒 君のFirebaseデータ倉庫の鍵（シンガポールサーバー用URLに最適化済み！）
+        // =================================================================
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQ0Apt3dKVOqrvVwS87nWOycY2BxSiv2I",
+            authDomain: "footballcommunityjp.firebaseapp.com",
+            databaseURL: "https://footballcommunityjp-default-rtdb.asia-southeast1.firebasedatabase.app/", 
+            projectId: "footballcommunityjp",
+            storageBucket: "footballcommunityjp.firebasestorage.app",
+            messagingSenderId: "1085880867812",
+            appId: "1:1085880867812:web:d4e1e053e3d395f1f105f1",
+            measurementId: "G-6SJP0Q7ZNG"
+        };
+
+        // Firebase起動！
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // 🔑 管理者コード
+        const SECRET_ADMIN_CODE = "nitbskean";
+
+        // 初期データ（じょりさんの最新データもここに入ってるぜ！）
+        const defaultMembers = [
+            { id: 1, avatar: "⚽", name: "MENTAI", username: "@mentaiko8351", followers: 304, followersTxt: "304", likes: 1300, likesTxt: "1.3K", following: "189", tiktokUrl: "https://www.tiktok.com/@mentaiko8351", bioJa: "垢バンされた過去を持つサッカー編集者、ちなみにげい<br>好きなサッカー選手: ルイス・スアレス", bioEn: "A football editor with a history of being banned. Btw gay.<br>Favorite Player: Luis Suárez" },
+            { id: 2, avatar: "🇵🇹", name: "じょり 𝑱𝑶𝑹𝑰", username: "@jori10777", followers: 97200, followersTxt: "97.2K", likes: 18800000, likesTxt: "18.8M", following: "5", tiktokUrl: "https://www.tiktok.com/@jori10777", bioJa: "『サッカー選手、監督のインタビューを広めたい』", bioEn: "'I want to spread interviews of football players and managers.'" }
+        ];
+
+        let memberList = [];
+        let currentLang = 'ja';
+        const staticLangData = {
+            ja: { title: "⚽ FOOTBALL COMMUNITY JP", sub: "サッカー界隈の凄腕編集者やプレイヤー特設紹介サイト", viewTitle: "表示形式", sortTitle: "並び替え", themeTitle: "テーマ変更", langTitle: "言語切り替え", adminTitle: "管理者コード", followers: "フォロワー", likes: "いいね", following: "フォロー中" },
+            en: { title: "⚽ FOOTBALL COMMUNITY JP", sub: "Special showcase site for elite football editors & players", viewTitle: "DISPLAY", sortTitle: "SORT", themeTitle: "THEME", langTitle: "LANGUAGE", adminTitle: "ADMIN CODE", followers: "Followers", likes: "Likes", following: "Following" }
+        };
+
+        // 📦 ネットの向こうのデータ倉庫からリアルタイム同期する処理
+        database.ref('members').on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                memberList = Object.values(data);
+            } else {
+                database.ref('members').set(defaultMembers);
+                memberList = defaultMembers;
+            }
+            renderCards();
+        });
+
+        function checkAdminCode() {
+            const input = document.getElementById('adminCodeInput').value;
+            const btn = document.getElementById('adminAddBtn');
+            if (input === SECRET_ADMIN_CODE) btn.classList.add('visible');
+            else btn.classList.remove('visible');
+        }
+
+        function renderCards() {
+            const container = document.getElementById('mainContainer');
+            container.innerHTML = '';
+            memberList.forEach(m => {
+                const bio = currentLang === 'ja' ? m.bioJa : m.bioEn;
+                const cardHtml = `
+                    <div class="card" data-id="${m.id}">
+                        <div class="card-body">
+                            <div class="avatar-box">${m.avatar}</div>
+                            <div class="profile-info"><div class="name">${m.name}</div><div class="username">${m.username}</div></div>
+                            <div class="stats">
+                                <div class="stat-item"><div class="stat-value">${m.followersTxt}</div><div class="stat-label">${staticLangData[currentLang].followers}</div></div>
+                                <div class="stat-item"><div class="stat-value">${m.likesTxt}</div><div class="stat-label">${staticLangData[currentLang].likes}</div></div>
+                                <div class="stat-item"><div class="stat-value">${m.following}</div><div class="stat-label">${staticLangData[currentLang].following}</div></div>
+                            </div>
+                            <div class="bio">${bio}</div>
+                            <a href="${m.tiktokUrl}" target="_blank" class="btn">TikTok</a>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += cardHtml;
+            });
+        }
