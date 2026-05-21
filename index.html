@@ -3,269 +3,655 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>フットボールコミュニティJP</title>
+    <title>フットボールコミュニティJP - SUPER EXPERT</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        /* --- テーマ定義（CSS変数） --- */
+        /* ==========================================
+           🎨 無茶クソ綺麗なテーマ・デザイン定義 (CSS)
+           ========================================== */
         :root {
             --bg-color: #030712;
-            --bg-image: linear-gradient(rgba(0, 255, 204, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 204, 0.03) 1px, transparent 1px), radial-gradient(circle at 20% 35%, rgba(0, 122, 255, 0.15) 0%, transparent 40%), radial-gradient(circle at 80% 70%, rgba(255, 0, 127, 0.12) 0%, transparent 45%);
-            --text-color: #ffffff; --card-bg: rgba(6, 11, 25, 0.6); --card-border: rgba(0, 255, 204, 0.15); --sub-text: #475569; --panel-bg: rgba(10, 17, 36, 0.98); --neon-cyan: #00ffcc; --neon-pink: #ff007f; --neon-blue: #0077ff;
+            --bg-gradient: radial-gradient(circle at 50% 0%, #0b1528 0%, #030712 100%);
+            --grid-color: rgba(0, 255, 204, 0.02);
+            --text-color: #ffffff;
+            --card-bg: rgba(11, 22, 44, 0.5);
+            --card-border: rgba(0, 255, 204, 0.15);
+            --card-hover-border: #00ffcc;
+            --sub-text: #64748b;
+            --panel-bg: rgba(6, 11, 25, 0.96);
+            --neon-cyan: #00ffcc;
+            --neon-pink: #ff007f;
+            --neon-blue: #0077ff;
+            --glow-color: rgba(0, 255, 204, 0.3);
+            --font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
-        [data-theme="dark"] { --bg-color: #000000; --bg-image: none; --text-color: #ffffff; --card-bg: #0c0c0c; --card-border: #222222; --sub-text: #64748b; --panel-bg: #111111; --neon-cyan: #ffffff; --neon-pink: #555555; --neon-blue: #333333; }
-        [data-theme="light"] { --bg-color: #f1f5f9; --bg-image: linear-gradient(rgba(0, 122, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 122, 255, 0.03) 1px, transparent 1px); --text-color: #0f172a; --card-bg: rgba(255, 255, 255, 0.9); --card-border: rgba(0, 122, 255, 0.2); --sub-text: #94a3b8; --panel-bg: rgba(255, 255, 255, 0.98); --neon-cyan: #0077ff; --neon-pink: #ff0055; --neon-blue: #00ddff; }
-        body { background-color: var(--bg-color); background-image: var(--bg-image); background-size: 40px 40px, 40px 40px, 100% 100%, 100% 100%; background-attachment: fixed; color: var(--text-color); font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; transition: background 0.5s ease, color 0.5s ease; -webkit-tap-highlight-color: transparent; padding-bottom: 100px; }
-        .header { background: rgba(3, 7, 18, 0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); width: 100%; padding: 30px 20px; text-align: center; box-sizing: border-box; border-bottom: 2px solid var(--card-border); position: relative; z-index: 1000; box-shadow: 0 4px 30px rgba(0, 255, 204, 0.05); }
-        .header h1 { margin: 0; font-size: 24px; font-weight: 800; letter-spacing: 3px; padding-right: 40px; padding-left: 40px; background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-shadow: 0 0 15px rgba(0, 255, 204, 0.3); }
-        .header p { margin: 10px 0 0 0; color: var(--sub-text); font-size: 12px; letter-spacing: 1px; }
-        .settings-toggle { position: absolute; top: 24px; right: 20px; font-size: 22px; background: none; border: none; color: var(--text-color); cursor: pointer; transition: transform 0.3s ease, text-shadow 0.3s; z-index: 10001; padding: 5px; }
-        .settings-toggle:hover { transform: rotate(45deg); text-shadow: 0 0 10px var(--neon-cyan); }
-        .settings-panel { position: absolute; top: 65px; right: 15px; background: var(--panel-bg); border: 2px solid var(--neon-cyan); border-radius: 16px; padding: 16px; display: none; flex-direction: column; gap: 15px; box-shadow: 0 0 25px rgba(0, 255, 204, 0.2), inset 0 0 15px rgba(0, 255, 204, 0.1); z-index: 99999; width: 220px; max-height: 430px; overflow-y: auto; box-sizing: border-box; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        .settings-panel.open { display: flex; }
-        .setting-section h3 { margin: 0 0 8px 0; font-size: 11px; color: var(--neon-cyan); letter-spacing: 1px; text-transform: uppercase; text-shadow: 0 0 5px rgba(0, 255, 204, 0.5); }
-        .btn-group { display: flex; gap: 4px; flex-wrap: wrap; }
-        .select-btn { background: rgba(255,255,255,0.03); border: 1px solid rgba(0, 255, 204, 0.3); color: var(--text-color); padding: 6px 8px; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: bold; transition: all 0.2s; flex: 1; min-width: 50px; text-align: center; }
-        .select-btn.active { background: var(--neon-cyan); color: #030712; border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0, 255, 204, 0.6); }
-        .admin-input-box { background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(0, 255, 204, 0.3); border-radius: 6px; padding: 6px; color: white; font-size: 11px; width: 100%; box-sizing: border-box; }
-        .container { max-width: 1200px; width: 100%; padding: 30px 15px; box-sizing: border-box; display: flex; transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); position: relative; z-index: 1; }
-        .container.layout-slim { flex-direction: column; gap: 20px; max-width: 1000px; }
-        .container.layout-grid { flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 25px; max-width: 1200px; }
-        .card { background: var(--card-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; width: 100%; position: relative; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5); transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), max-width 0.5s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s, box-shadow 0.3s; }
-        .card::before, .card::after { content: ""; position: absolute; width: 12px; height: 12px; transition: all 0.3s ease; pointer-events: none; }
-        .card::before { top: 0; left: 0; border-top: 3px solid var(--neon-cyan); border-left: 3px solid var(--neon-cyan); }
-        .card::after { bottom: 0; right: 0; border-bottom: 3px solid var(--neon-pink); border-right: 3px solid var(--neon-pink); }
-        .container.layout-slim .card { max-width: 100%; }
-        .container.layout-grid .card { max-width: 340px; }
-        .card:hover { border-color: var(--neon-cyan); box-shadow: 0 0 25px rgba(0, 255, 204, 0.25), inset 0 0 15px rgba(0, 255, 204, 0.05); }
-        .container.layout-slim .card:hover { transform: scale(1.01) translateX(5px); }
-        .container.layout-grid .card:hover { transform: translateY(-8px) scale(1.02); }
-        .card-body { padding: 22px; display: flex; align-items: center; justify-content: space-between; gap: 15px; position: relative; z-index: 2; }
-        .container.layout-slim .card-body { flex-direction: row; padding: 16px 22px; text-align: left; overflow-x: auto; }
-        .container.layout-grid .card-body { flex-direction: column; text-align: center; padding: 28px 22px; }
-        .avatar-box { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--neon-cyan); background: rgba(3, 7, 18, 0.8); display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; box-shadow: 0 0 10px rgba(0, 255, 204, 0.2); transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
-        .container.layout-grid .avatar-box { width: 85px; height: 85px; font-size: 38px; }
-        .profile-info { display: flex; flex-direction: column; min-width: 110px; flex-shrink: 0; }
-        .container.layout-grid .profile-info { align-items: center; }
-        .name { font-size: 18px; font-weight: 700; margin: 0; letter-spacing: 0.5px; text-shadow: 0 0 5px rgba(255,255,255,0.1); }
-        .container.layout-grid .name { font-size: 22px; }
-        .username { font-size: 11px; color: var(--sub-text); margin-top: 3px; letter-spacing: 0.5px; }
-        .container.layout-grid .username { margin-bottom: 15px; }
-        .stats { display: flex; background: rgba(0, 0, 0, 0.4); padding: 8px 14px; border-radius: 10px; border: 1px solid rgba(0, 255, 204, 0.1); flex-shrink: 0; }
-        .container.layout-slim .stats { gap: 15px; }
-        .container.layout-grid .stats { width: 100%; box-sizing: border-box; justify-content: space-between; margin-bottom: 15px; padding: 12px; }
-        .stat-item { text-align: center; }
-        .container.layout-slim .stat-item { min-width: 55px; }
-        .container.layout-grid .stat-item { flex: 1; }
-        .stat-value { font-size: 13px; font-weight: 700; color: var(--neon-cyan); text-shadow: 0 0 8px rgba(0, 255, 204, 0.4); }
-        .bio { font-size: 12px; color: #e2e8f0; line-height: 1.6; text-align: left; background: rgba(0, 0, 0, 0.3); padding: 10px 14px; border-radius: 8px; border-left: 3px solid var(--neon-pink); box-sizing: border-box; transition: all 0.5s ease; }
-        .container.layout-slim .bio { flex: 1; min-width: 180px; }
-        .container.layout-grid .bio { width: 100%; margin-bottom: 15px; }
-        .btn { display: block; background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue)); color: #030712; text-decoration: none; font-weight: 800; font-size: 11px; text-align: center; padding: 10px 18px; border-radius: 6px; box-shadow: 0 4px 15px rgba(0, 255, 204, 0.2); letter-spacing: 1px; transition: all 0.3s ease; flex-shrink: 0; white-space: nowrap; }
-        .container.layout-grid .btn { width: 100%; padding: 12px; font-size: 12px; }
-        .admin-add-button { position: fixed; bottom: 25px; right: 25px; width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--neon-pink), #ff0055); border: 2px solid #ffffff; color: white; font-size: 32px; font-weight: bold; display: none; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px rgba(255, 0, 127, 0.6); z-index: 9999; transition: transform 0.2s, box-shadow 0.2s; }
-        .admin-add-button.visible { display: flex; }
-        .admin-add-button:hover { transform: scale(1.1) rotate(90deg); box-shadow: 0 0 30px rgba(255, 0, 127, 0.9); }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 100000; }
-        .modal-overlay.active { display: flex; }
-        .modal-content { background: var(--panel-bg); border: 2px solid var(--neon-cyan); border-radius: 16px; padding: 25px; width: 90%; max-width: 400px; box-shadow: 0 0 30px rgba(0, 255, 204, 0.3); box-sizing: border-box; max-height: 90vh; overflow-y: auto; }
-        .modal-content h2 { margin: 0 0 20px 0; font-size: 18px; color: var(--neon-cyan); text-align: center; }
-        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
-        .form-group label { font-size: 11px; color: var(--sub-text); font-weight: bold; }
-        .form-group input, .form-group textarea { background: rgba(0,0,0,0.5); border: 1px solid var(--card-border); border-radius: 6px; padding: 10px; color: white; font-size: 13px; }
-        .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
-        .modal-btn { flex: 1; padding: 12px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; border: none; }
-        .modal-btn.cancel { background: #334155; color: white; }
-        .modal-btn.save { background: var(--neon-cyan); color: #030712; }
+
+        /* 🌌 ギャラクシー宇宙テーマ */
+        [data-theme="galaxy"] {
+            --bg-color: #0b001a;
+            --bg-gradient: radial-gradient(circle at 50% 50%, #1a0033 0%, #050010 100%);
+            --grid-color: rgba(255, 0, 127, 0.03);
+            --text-color: #f3e8ff;
+            --card-bg: rgba(30, 0, 60, 0.4);
+            --card-border: rgba(216, 180, 254, 0.2);
+            --card-hover-border: #d8b4fe;
+            --sub-text: #a78bfa;
+            --panel-bg: rgba(20, 0, 40, 0.98);
+            --neon-cyan: #c084fc;
+            --neon-pink: #f472b6;
+            --neon-blue: #38bdf8;
+            --glow-color: rgba(192, 132, 252, 0.4);
+        }
+
+        /* 🕶️ ディープダークテーマ */
+        [data-theme="dark"] {
+            --bg-color: #000000;
+            --bg-gradient: none;
+            --grid-color: rgba(255,255,255,0.01);
+            --text-color: #ffffff;
+            --card-bg: #0d0d0d;
+            --card-border: #222222;
+            --card-hover-border: #ffffff;
+            --sub-text: #64748b;
+            --panel-bg: #121212;
+            --neon-cyan: #ffffff;
+            --neon-pink: #444444;
+            --neon-blue: #222222;
+            --glow-color: rgba(255,255,255,0.1);
+        }
+
+        /* ☀️ スタイリッシュライトテーマ */
+        [data-theme="light"] {
+            --bg-color: #f8fafc;
+            --bg-gradient: linear-gradient(#f1f5f9, #f8fafc);
+            --grid-color: rgba(15, 23, 42, 0.02);
+            --text-color: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(15, 23, 42, 0.08);
+            --card-hover-border: #3b82f6;
+            --sub-text: #64748b;
+            --panel-bg: rgba(255, 255, 255, 0.98);
+            --neon-cyan: #3b82f6;
+            --neon-pink: #ec4899;
+            --neon-blue: #06b6d4;
+            --glow-color: rgba(59, 130, 246, 0.2);
+        }
+
+        /* 全体基礎スタイル */
+        body {
+            background-color: var(--bg-color);
+            background-image: var(--bg-gradient), linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 100% 100%, 30px 30px, 30px 30px;
+            background-attachment: fixed;
+            color: var(--text-color);
+            font-family: var(--font-family);
+            margin: 0; padding: 0;
+            display: flex; flex-direction: column; align-items: center;
+            min-height: 100vh; padding-bottom: 120px;
+            overflow-x: hidden; transition: background 0.5s ease, color 0.5s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 👑 超美麗サイバーヘッダー */
+        .header-wrapper {
+            width: 100%; background: rgba(3, 7, 18, 0.3);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 25px 20px; box-sizing: border-box;
+            position: relative; z-index: 1000;
+            display: flex; flex-direction: column; align-items: center; gap: 15px;
+        }
+        .header-main {
+            display: flex; justify-content: center; align-items: center; width: 100%; position: relative;
+        }
+        .header-main h1 {
+            margin: 0; font-size: 26px; font-weight: 900; letter-spacing: 4px;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px var(--glow-color);
+        }
+
+        /* ⚙️ 設定ギアボタン */
+        .settings-btn {
+            position: absolute; right: 10px; background: none; border: none;
+            color: var(--text-color); font-size: 22px; cursor: pointer;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 8px; z-index: 1002;
+        }
+        .settings-btn:hover { transform: rotate(90deg) scale(1.1); color: var(--neon-cyan); }
+
+        /* 🛡️ 超近未来コントロールセンター（設定パネル） */
+        .control-panel {
+            position: absolute; top: 80px; right: 20px; background: var(--panel-bg);
+            border: 1px solid var(--card-border); border-radius: 16px; padding: 20px;
+            width: 260px; box-sizing: border-box; display: none; flex-direction: column; gap: 18px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 0 15px rgba(0, 255, 204, 0.05);
+            z-index: 9999; animation: panelSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        .control-panel.open { display: flex; }
+        @keyframes panelSlide { from { opacity: 0; transform: translateY(-10px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        
+        .panel-sec h4 { margin: 0 0 10px 0; font-size: 11px; color: var(--neon-cyan); letter-spacing: 1.5px; text-transform: uppercase; }
+        .ui-group { display: flex; gap: 6px; }
+        .ui-btn {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
+            color: var(--text-color); padding: 8px; border-radius: 8px; cursor: pointer;
+            font-size: 11px; font-weight: 700; flex: 1; text-align: center; transition: all 0.2s;
+        }
+        .ui-btn.active { background: var(--neon-cyan); color: #030712; border-color: var(--neon-cyan); box-shadow: 0 0 12px var(--glow-color); }
+        .secret-input { background: rgba(0,0,0,0.6); border: 1px solid var(--card-border); border-radius: 8px; padding: 8px; color: #fff; font-size: 12px; width: 100%; box-sizing: border-box; text-align: center; }
+
+        /* 🔍 リアルタイム検索 ＆ タグ切り替えエリア */
+        .search-filter-area {
+            display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 500px; margin-top: 5px;
+        }
+        .search-box-wrapper { position: relative; width: 100%; }
+        .search-box-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--sub-text); font-size: 14px; }
+        .search-input {
+            width: 100%; background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border);
+            padding: 12px 12px 12px 42px; box-sizing: border-box; border-radius: 30px;
+            color: white; font-size: 14px; transition: all 0.3s ease;
+        }
+        .search-input:focus { border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0,255,204,0.15); outline: none; }
+        
+        /* 🏷️ タグフィルターボタン */
+        .tag-filter-container { display: flex; justify-content: center; gap: 8px; overflow-x: auto; padding: 4px; width: 100%; }
+        .tag-btn {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid transparent; color: var(--sub-text);
+            padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: bold; cursor: pointer;
+            white-space: nowrap; transition: all 0.2s ease;
+        }
+        .tag-btn.active { background: rgba(0, 255, 204, 0.1); border-color: var(--neon-cyan); color: var(--neon-cyan); }
+
+        /* 🗂️ メイングリッドコンテナ */
+        .main-container {
+            width: 100%; max-width: 1200px; padding: 40px 20px; box-sizing: border-box;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;
+            justify-content: center;
+        }
+
+        /* 🃏 アルティメット・サイバーカード */
+        .member-card {
+            background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border); border-radius: 20px; padding: 30px 24px;
+            position: relative; display: flex; flex-direction: column; align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3); box-sizing: border-box;
+            transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s, box-shadow 0.4s;
+            animation: cardEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        .member-card:hover {
+            transform: translateY(-10px) scale(1.02); border-color: var(--card-hover-border);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px var(--glow-color);
+        }
+        @keyframes cardEntrance { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 🏷️ カード内の役職タグ */
+        .card-tag {
+            position: absolute; top: 15px; left: 20px; font-size: 10px; font-weight: 800;
+            background: rgba(0, 119, 255, 0.15); color: var(--neon-blue); border: 1px solid rgba(0, 119, 255, 0.3);
+            padding: 3px 10px; border-radius: 10px; letter-spacing: 0.5px; text-transform: uppercase;
+        }
+
+        /* 🛠️ アクションボタン（削除・編集）エリア */
+        .card-actions { position: absolute; top: 12px; right: 15px; display: none; gap: 6px; z-index: 10; }
+        .action-icon-btn {
+            background: rgba(0,0,0,0.4); border: 1px solid var(--card-border); width: 28px; height: 28px;
+            border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .action-icon-btn.edit { color: var(--neon-cyan); }
+        .action-icon-btn.edit:hover { background: var(--neon-cyan); color: #000; }
+        .action-icon-btn.del { color: var(--neon-pink); }
+        .action-icon-btn.del:hover { background: var(--neon-pink); color: #fff; box-shadow: 0 0 10px var(--neon-pink); }
+
+        /* 👤 アバター球体 */
+        .avatar-sphere {
+            width: 90px; height: 90px; border-radius: 50%; border: 2px solid var(--neon-cyan);
+            background: #030712; display: flex; align-items: center; justify-content: center;
+            font-size: 40px; box-shadow: 0 0 15px var(--glow-color); margin-top: 10px;
+            background-size: cover; background-position: center; background-repeat: no-repeat;
+            transition: transform 0.3s ease;
+        }
+        .member-card:hover .avatar-sphere { transform: scale(1.05) rotate(5deg); }
+
+        .member-name { font-size: 22px; font-weight: 800; margin: 15px 0 0 0; letter-spacing: 0.5px; text-align: center; }
+        .member-uid { font-size: 12px; color: var(--sub-text); margin: 4px 0 15px 0; font-family: monospace; }
+
+        /* 📊 ステータス格子 */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); background: rgba(0, 0, 0, 0.25);
+            width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03);
+            margin-bottom: 20px; padding: 10px 0; position: relative;
+        }
+        .stat-box { text-align: center; position: relative; }
+        .stat-box:not(:last-child)::after {
+            content: ''; position: absolute; right: 0; top: 15%; height: 70%; width: 1px; background: rgba(255,255,255,0.08);
+        }
+        .stat-num { font-size: 15px; font-weight: 800; color: var(--neon-cyan); text-shadow: 0 0 8px var(--glow-color); }
+        .stat-lbl { font-size: 9px; color: var(--sub-text); font-weight: bold; margin-top: 3px; letter-spacing: 0.5px; }
+
+        /* 🔗 TikTok接続ボタン */
+        .link-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%;
+            background: linear-gradient(90deg, var(--neon-cyan), var(--neon-blue)); color: #030712;
+            text-decoration: none; font-weight: 800; font-size: 13px; padding: 12px; border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 255, 204, 0.15); box-sizing: border-box; transition: all 0.3s ease;
+        }
+        .link-btn:hover { box-shadow: 0 0 25px var(--neon-cyan); transform: scale(1.02); }
+
+        /* ➕ フローティングクリエイトボタン */
+        .add-float-btn {
+            position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-pink), #ff0055); border: 2px solid #ffffff;
+            color: white; font-size: 26px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; box-shadow: 0 0 25px rgba(255, 0, 127, 0.5); z-index: 999;
+            opacity: 0; transform: scale(0) rotate(-90deg); pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .add-float-btn.visible { opacity: 1; transform: scale(1) rotate(0deg); pointer-events: auto; }
+
+        /* 🎬 ネオン・インプット・モーダル */
+        .modal-mask {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            display: flex; align-items: center; justify-content: center; z-index: 100000;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
+        .modal-mask.active { opacity: 1; pointer-events: auto; }
+        .modal-window {
+            background: var(--panel-bg); border: 1px solid var(--neon-cyan); border-radius: 20px;
+            padding: 30px; width: 92%; max-width: 440px; box-shadow: 0 0 40px rgba(0, 255, 204, 0.2);
+            box-sizing: border-box; max-height: 85vh; overflow-y: auto;
+            transform: translateY(30px) scale(0.95); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .modal-mask.active .modal-window { transform: translateY(0) scale(1); }
+        .modal-window h2 { margin: 0 0 25px 0; font-size: 20px; color: var(--neon-cyan); text-align: center; font-weight: 800; letter-spacing: 1px; }
+        
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+        .input-group label { font-size: 11px; color: var(--sub-text); font-weight: 800; letter-spacing: 0.5px; }
+        .input-group input, .input-group select {
+            background: rgba(0,0,0,0.5); border: 1px solid var(--card-border);
+            border-radius: 8px; padding: 11px 14px; color: white; font-size: 13px;
+            transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box;
+        }
+        .input-group input:focus, .input-group select:focus { border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0,255,204,0.2); outline: none; }
+        
+        .actions-row { display: flex; gap: 12px; margin-top: 25px; }
+        .form-btn { flex: 1; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; border: none; transition: all 0.2s; }
+        .form-btn.back { background: #1e293b; color: #94a3b8; }
+        .form-btn.go { background: var(--neon-cyan); color: #030712; }
+
+        /* ==========================================
+           🚨 復活・無茶クソ綺麗なカスタム確認ダイアログ (UI)
+           ========================================== */
+        .confirm-mask {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            display: flex; align-items: center; justify-content: center; z-index: 200000;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .confirm-mask.active { opacity: 1; pointer-events: auto; }
+        .confirm-window {
+            background: #090d16; border: 2px solid var(--neon-pink); border-radius: 16px;
+            padding: 24px; width: 90%; max-width: 360px; text-align: center;
+            box-shadow: 0 0 40px rgba(255, 0, 127, 0.25); box-sizing: border-box;
+            transform: scale(0.9) translateY(20px); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .confirm-mask.active .confirm-window { transform: scale(1) translateY(0); }
+        .confirm-icon { font-size: 42px; color: var(--neon-pink); margin-bottom: 15px; text-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
+        .confirm-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
+        .confirm-msg { font-size: 13px; color: #94a3b8; line-height: 1.5; margin-bottom: 22px; }
+        .confirm-actions { display: flex; gap: 10px; }
+        .confirm-btn { flex: 1; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; border: none; transition: all 0.2s; }
+        .confirm-btn.no { background: #1e293b; color: #fff; }
+        .confirm-btn.yes { background: linear-gradient(90deg, #ff0055, var(--neon-pink)); color: #fff; box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3); }
+        .confirm-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--sub-text); font-size: 14px; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <button class="settings-toggle" onclick="toggleSettings()">⚙️</button>
-        <div class="settings-panel" id="settingsPanel">
-            <div class="setting-section">
-                <h3 id="set-admin-title">ADMIN CODE</h3>
-                <input type="password" id="adminCodeInput" class="admin-input-box" placeholder="コードを入力..." oninput="checkAdminCode()">
+    <div class="header-wrapper">
+        <div class="header-main">
+            <h1>⚽ FOOTBALL COMMUNITY JP</h1>
+            <button class="settings-btn" onclick="togglePanel()"><i class="fa-solid fa-sliders"></i></button>
+        </div>
+
+        <div class="control-panel" id="controlPanel">
+            <div class="panel-sec">
+                <h4><i class="fa-solid fa-lock"></i> Admin Authentication</h4>
+                <input type="password" id="adminPass" class="secret-input" placeholder="コードを入力..." oninput="verifyAdmin()">
             </div>
-            <div class="setting-section">
-                <h3 id="set-view-title">DISPLAY</h3>
-                <div class="btn-group">
-                    <button class="select-btn active" id="btn-slim" onclick="changeLayout('slim')">SLIM</button>
-                    <button class="select-btn" id="btn-grid" onclick="changeLayout('grid')">GRID</button>
+            <div class="panel-sec">
+                <h4><i class="fa-solid fa-arrow-down-wide-short"></i> Dynamic Sort</h4>
+                <div class="ui-group">
+                    <button class="ui-btn active" id="sort-idx" onclick="updateSort('default', this)">標準</button>
+                    <button class="ui-btn" id="sort-fol" onclick="updateSort('followers', this)">人気</button>
+                    <button class="ui-btn" id="sort-lk" onclick="updateSort('likes', this)">いいね</button>
                 </div>
             </div>
-            <div class="setting-section">
-                <h3 id="set-sort-title">SORT</h3>
-                <div class="btn-group">
-                    <button class="select-btn active" id="btn-sort-default" onclick="sortCards('default', this)">DEFAULT</button>
-                    <button class="select-btn" id="btn-sort-followers" onclick="sortCards('followers', this)">FOLLOWER</button>
-                    <button class="select-btn" id="btn-sort-likes" onclick="sortCards('likes', this)">LIKE</button>
-                </div>
-            </div>
-            <div class="setting-section">
-                <h3 id="set-theme-title">THEME</h3>
-                <div class="btn-group">
-                    <button class="select-btn active" onclick="changeTheme('cyber', this)">CYBER</button>
-                    <button class="select-btn" onclick="changeTheme('dark', this)">DARK</button>
-                    <button class="select-btn" onclick="changeTheme('light', this)">LIGHT</button>
-                </div>
-            </div>
-            <div class="setting-section">
-                <h3 id="set-lang-title">LANGUAGE</h3>
-                <div class="btn-group">
-                    <button class="select-btn active" onclick="changeLang('ja', this)">JA</button>
-                    <button class="select-btn" onclick="changeLang('en', this)">EN</button>
+            <div class="panel-sec">
+                <h4><i class="fa-solid fa-palette"></i> Cyber Grid Theme</h4>
+                <div class="ui-group" style="flex-wrap: wrap;">
+                    <button class="ui-btn active" onclick="updateTheme('cyber', this)">NEON</button>
+                    <button class="ui-btn" onclick="updateTheme('galaxy', this)">SPACE</button>
+                    <button class="ui-btn" onclick="updateTheme('dark', this)">DARK</button>
+                    <button class="ui-btn" onclick="updateTheme('light', this)">LIGHT</button>
                 </div>
             </div>
         </div>
-        <h1 id="main-title">⚽ FOOTBALL COMMUNITY JP</h1>
-        <p id="main-sub">サッカー界隈の凄腕編集者やプレイヤー特設紹介サイト</p>
+
+        <div class="search-filter-area">
+            <div class="search-box-wrapper">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchBar" class="search-input" placeholder="メンバー名やIDで瞬時に検索..." oninput="filterMembers()">
+            </div>
+            <div class="tag-filter-container">
+                <button class="tag-btn active" onclick="filterTag('all', this)">ALL</button>
+                <button class="tag-btn" onclick="filterTag('editor', this)">EDITOR</button>
+                <button class="tag-btn" onclick="filterTag('player', this)">PLAYER</button>
+                <button class="tag-btn" onclick="filterTag('other', this)">OTHER</button>
+            </div>
+        </div>
     </div>
 
-    <div class="container layout-slim" id="mainContainer"></div>
-    <button class="admin-add-button" id="adminAddBtn" onclick="openModal()">+</button>
+    <div class="main-container" id="cardsGrid"></div>
+    
+    <button class="add-float-btn" id="addFloatBtn" onclick="launchModal()"><i class="fa-solid fa-plus"></i></button>
 
-    <div class="modal-overlay" id="addModal">
-        <div class="modal-content">
-            <h2>NEW MEMBER CREATOR</h2>
-            <div class="form-group"><label>絵文字 (AVATAR)</label><input type="text" id="in-avatar" value="⚽"></div>
-            <div class="form-group"><label>名前 (NAME)</label><input type="text" id="in-name" placeholder="例: ネイマール"></div>
-            <div class="form-group"><label>ユーザー名 (USERNAME)</label><input type="text" id="in-username" placeholder="例: @neymarjr"></div>
-            <div class="form-group"><label>フォロワー数（半角数字）</label><input type="number" id="in-followers" placeholder="50000"></div>
-            <div class="form-group"><label>フォロワー数（表示文字）</label><input type="text" id="in-followersTxt" placeholder="50K"></div>
-            <div class="form-group"><label>いいね数（半角数字）</label><input type="number" id="in-likes" placeholder="1000000"></div>
-            <div class="form-group"><label>いいね数（表示文字）</label><input type="text" id="in-likesTxt" placeholder="1M"></div>
-            <div class="form-group"><label>フォロー中</label><input type="text" id="in-following" value="0"></div>
-            <div class="form-group"><label>TikTokリンク</label><input type="text" id="in-url" value="https://www.tiktok.com/"></div>
-            <div class="form-group"><label>自己紹介文 [日本語]</label><textarea id="in-bioJa" rows="2"></textarea></div>
-            <div class="form-group"><label>自己紹介文 [英語]</label><textarea id="in-bioEn" rows="2"></textarea></div>
-            <div class="modal-actions">
-                <button class="modal-btn cancel" onclick="closeModal()">CANCEL</button>
-                <button class="modal-btn save" onclick="saveMember()">CREATE</button>
+    <div class="modal-mask" id="memberModal">
+        <div class="modal-window">
+            <h2 id="modalTitle">NEW MEMBER CREATOR</h2>
+            <input type="hidden" id="editTargetId">
+            
+            <div class="form-row">
+                <div class="input-group">
+                    <label>アバター (画像URL / 絵文字)</label>
+                    <input type="text" id="formAvatar" value="⚽">
+                </div>
+                <div class="input-group">
+                    <label>役割区分 (TAG)</label>
+                    <select id="formTag">
+                        <option value="editor">EDITOR</option>
+                        <option value="player">PLAYER</option>
+                        <option value="other">OTHER</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label>名前 (NAME)</label>
+                    <input type="text" id="formName" placeholder="ネイマール">
+                </div>
+                <div class="input-group">
+                    <label>ユーザー名 (ID)</label>
+                    <input type="text" id="formUser" placeholder="@neymarjr">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label>フォロワー数 (半角数字)</label>
+                    <input type="number" id="formFollowers" value="0">
+                </div>
+                <div class="input-group">
+                    <label>フォロワー表示 (例: 50K)</label>
+                    <input type="text" id="formFollowersTxt" value="0">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="input-group">
+                    <label>いいね数 (半角数字)</label>
+                    <input type="number" id="formLikes" value="0">
+                </div>
+                <div class="input-group">
+                    <label>いいね表示 (例: 1.2M)</label>
+                    <input type="text" id="formLikesTxt" value="0">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>フォロー中カウント</label>
+                <input type="text" id="formFollowing" value="0">
+            </div>
+
+            <div class="input-group">
+                <label>TikTok プロフィールリンク</label>
+                <input type="text" id="formUrl" value="https://www.tiktok.com/">
+            </div>
+
+            <div class="actions-row">
+                <button class="form-btn back" onclick="dismissModal()">CANCEL</button>
+                <button class="form-btn go" onclick="commitMemberData()">SAVE DATA</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="confirm-mask" id="cyberConfirm">
+        <div class="confirm-window">
+            <div class="confirm-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="confirm-title">WARNING SYSTEM</div>
+            <div class="confirm-msg" id="confirmMsg">本当にこのカードを消去するんだな？データベースからも跡形もなく消えるぜ。</div>
+            <div class="confirm-actions">
+                <button class="confirm-btn no" onclick="closeCyberConfirm(false)">CANCEL</button>
+                <button class="confirm-btn yes" onclick="closeCyberConfirm(true)">DELETE</button>
             </div>
         </div>
     </div>
 
     <script>
-        // =================================================================
-        // 🔒 君のFirebaseデータ倉庫の鍵（シンガポールサーバー用URLに最適化済み！）
-        // =================================================================
+        // ==========================================
+        // 🔒 Firebase データベース初期設定
+        // ==========================================
         const firebaseConfig = {
-            apiKey: "AIzaSyBQ0Apt3dKVOqrvVwS87nWOycY2BxSiv2I",
-            authDomain: "footballcommunityjp.firebaseapp.com",
             databaseURL: "https://footballcommunityjp-default-rtdb.asia-southeast1.firebasedatabase.app/", 
-            projectId: "footballcommunityjp",
-            storageBucket: "footballcommunityjp.firebasestorage.app",
-            messagingSenderId: "1085880867812",
-            appId: "1:1085880867812:web:d4e1e053e3d395f1f105f1",
-            measurementId: "G-6SJP0Q7ZNG"
+            projectId: "footballcommunityjp"
         };
-
-        // Firebase起動！
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
+        const MASTER_CODE = "nitbskean";
 
-        // 🔑 管理者コード
-        const SECRET_ADMIN_CODE = "nitbskean";
+        let localRawData = [];
+        let activeSort = 'default';
+        let activeTag = 'all';
+        let pendingDeleteId = null; // 消去待ちのIDを一時キープする変数
 
-        // 初期データ（じょりさんの最新データもここに入ってるぜ！）
-        const defaultMembers = [
-            { id: 1, avatar: "⚽", name: "MENTAI", username: "@mentaiko8351", followers: 304, followersTxt: "304", likes: 1300, likesTxt: "1.3K", following: "189", tiktokUrl: "https://www.tiktok.com/@mentaiko8351", bioJa: "垢バンされた過去を持つサッカー編集者、ちなみにげい<br>好きなサッカー選手: ルイス・スアレス", bioEn: "A football editor with a history of being banned. Btw gay.<br>Favorite Player: Luis Suárez" },
-            { id: 2, avatar: "🇵🇹", name: "じょり 𝑱𝑶𝑹𝑰", username: "@jori10777", followers: 97200, followersTxt: "97.2K", likes: 18800000, likesTxt: "18.8M", following: "5", tiktokUrl: "https://www.tiktok.com/@jori10777", bioJa: "『サッカー選手、監督のインタビューを広めたい』", bioEn: "'I want to spread interviews of football players and managers.'" }
-        ];
-
-        let memberList = [];
-        let currentLang = 'ja';
-        const staticLangData = {
-            ja: { title: "⚽ FOOTBALL COMMUNITY JP", sub: "サッカー界隈の凄腕編集者やプレイヤー特設紹介サイト", viewTitle: "表示形式", sortTitle: "並び替え", themeTitle: "テーマ変更", langTitle: "言語切り替え", adminTitle: "管理者コード", followers: "フォロワー", likes: "いいね", following: "フォロー中" },
-            en: { title: "⚽ FOOTBALL COMMUNITY JP", sub: "Special showcase site for elite football editors & players", viewTitle: "DISPLAY", sortTitle: "SORT", themeTitle: "THEME", langTitle: "LANGUAGE", adminTitle: "ADMIN CODE", followers: "Followers", likes: "Likes", following: "Following" }
-        };
-
-        // 📦 ネットの向こうのデータ倉庫からリアルタイム同期する処理
+        // 📦 Firebaseのデータ倉庫と同期
         database.ref('members').on('value', (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                memberList = Object.values(data);
-            } else {
-                database.ref('members').set(defaultMembers);
-                memberList = defaultMembers;
-            }
-            renderCards();
+            const val = snapshot.val();
+            localRawData = val ? Object.values(val) : [];
+            processAndRender();
         });
 
-        function checkAdminCode() {
-            const input = document.getElementById('adminCodeInput').value;
-            const btn = document.getElementById('adminAddBtn');
-            if (input === SECRET_ADMIN_CODE) btn.classList.add('visible');
-            else btn.classList.remove('visible');
+        function togglePanel() { document.getElementById('controlPanel').classList.toggle('open'); }
+
+        function verifyAdmin() {
+            const input = document.getElementById('adminPass').value;
+            const floatBtn = document.getElementById('addFloatBtn');
+            const actionAreas = document.querySelectorAll('.card-actions');
+
+            if (input === MASTER_CODE) {
+                floatBtn.classList.add('visible');
+                actionAreas.forEach(a => a.style.display = 'flex');
+            } else {
+                floatBtn.classList.remove('visible');
+                actionAreas.forEach(a => a.style.display = 'none');
+            }
         }
 
-        function renderCards() {
-            const container = document.getElementById('mainContainer');
-            container.innerHTML = '';
-            memberList.forEach(m => {
-                const bio = currentLang === 'ja' ? m.bioJa : m.bioEn;
+        function updateTheme(theme, element) {
+            if (theme === 'cyber') document.body.removeAttribute('data-theme');
+            else document.body.setAttribute('data-theme', theme);
+            element.parentElement.querySelectorAll('.ui-btn').forEach(b => b.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function updateSort(criteria, element) {
+            activeSort = criteria;
+            processAndRender();
+            element.parentElement.querySelectorAll('.ui-btn').forEach(b => b.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function filterTag(tag, element) {
+            activeTag = tag;
+            processAndRender();
+            element.parentElement.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+            element.classList.add('active');
+        }
+
+        function filterMembers() { processAndRender(); }
+
+        function processAndRender() {
+            let workingList = [...localRawData];
+            if (activeTag !== 'all') workingList = workingList.filter(m => m.tag === activeTag);
+
+            const keyword = document.getElementById('searchBar').value.toLowerCase().trim();
+            if (keyword) {
+                workingList = workingList.filter(m => 
+                    (m.name && m.name.toLowerCase().includes(keyword)) || 
+                    (m.username && m.username.toLowerCase().includes(keyword))
+                );
+            }
+
+            if (activeSort === 'followers') workingList.sort((a, b) => (b.followers || 0) - (a.followers || 0));
+            else if (activeSort === 'likes') workingList.sort((a, b) => (b.likes || 0) - (a.likes || 0));
+            else workingList.sort((a, b) => String(a.id).localeCompare(String(b.id)));
+
+            const grid = document.getElementById('cardsGrid');
+            grid.innerHTML = '';
+
+            if (workingList.length === 0) {
+                grid.innerHTML = '<div class="empty-state"><i class="fa-solid fa-folder-open" style="font-size:24px;margin-bottom:10px;"></i><br>該当するメンバーが見つからないぜ</div>';
+                return;
+            }
+
+            workingList.forEach(m => {
+                const isUrl = m.avatar && m.avatar.startsWith('http');
+                const avatarStyle = isUrl ? `background-image: url('${m.avatar}');` : '';
+                const avatarContent = isUrl ? '' : (m.avatar || "⚽");
+                const tagLabel = m.tag || 'editor';
+
                 const cardHtml = `
-                    <div class="card" data-id="${m.id}">
-                        <div class="card-body">
-                            <div class="avatar-box">${m.avatar}</div>
-                            <div class="profile-info"><div class="name">${m.name}</div><div class="username">${m.username}</div></div>
-                            <div class="stats">
-                                <div class="stat-item"><div class="stat-value">${m.followersTxt}</div><div class="stat-label">${staticLangData[currentLang].followers}</div></div>
-                                <div class="stat-item"><div class="stat-value">${m.likesTxt}</div><div class="stat-label">${staticLangData[currentLang].likes}</div></div>
-                                <div class="stat-item"><div class="stat-value">${m.following}</div><div class="stat-label">${staticLangData[currentLang].following}</div></div>
-                            </div>
-                            <div class="bio">${bio}</div>
-                            <a href="${m.tiktokUrl}" target="_blank" class="btn">TikTok</a>
+                    <div class="member-card">
+                        <div class="card-tag">${tagLabel}</div>
+                        <div class="card-actions">
+                            <button class="action-icon-btn edit" onclick="initiateEdit('${m.id}')"><i class="fa-solid fa-pen"></i></button>
+                            <button class="action-icon-btn del" onclick="openCyberConfirm('${m.id}', '${m.name}')"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
+                        <div class="avatar-sphere" style="${avatarStyle}">${avatarContent}</div>
+                        <div class="member-name">${m.name}</div>
+                        <div class="member-uid">${m.username || '@username'}</div>
+                        <div class="stats-grid">
+                            <div class="stat-box">
+                                <div class="stat-num">${m.followersTxt || '0'}</div>
+                                <div class="stat-lbl">フォロワー</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-num">${m.likesTxt || '0'}</div>
+                                <div class="stat-lbl">いいね</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-num">${m.following || '0'}</div>
+                                <div class="stat-lbl">フォロー</div>
+                            </div>
+                        </div>
+                        <a href="${m.tiktokUrl || 'https://www.tiktok.com/'}" target="_blank" class="link-btn">
+                            <i class="fa-brands fa-tiktok"></i> TikTok Profile
+                        </a>
                     </div>
                 `;
-                container.innerHTML += cardHtml;
+                grid.insertAdjacentHTML('beforeend', cardHtml);
             });
+            verifyAdmin();
         }
 
-        function openModal() { document.getElementById('addModal').classList.add('active'); }
-        function closeModal() { document.getElementById('addModal').classList.remove('active'); }
+        function launchModal() {
+            document.getElementById('modalTitle').innerText = "NEW MEMBER CREATOR";
+            document.getElementById('editTargetId').value = "";
+            document.getElementById('formName').value = "";
+            document.getElementById('formUser').value = "";
+            document.getElementById('formAvatar').value = "⚽";
+            document.getElementById('formFollowers').value = 0;
+            document.getElementById('formFollowersTxt').value = "0";
+            document.getElementById('formLikes').value = 0;
+            document.getElementById('formLikesTxt').value = "0";
+            document.getElementById('formFollowing').value = "0";
+            document.getElementById('formUrl').value = "https://www.tiktok.com/";
+            document.getElementById('memberModal').classList.add('active');
+        }
 
-        function saveMember() {
-            const name = document.getElementById('in-name').value.trim();
-            if(!name) { alert("名前を入力してくれ！"); return; }
-            
-            const nextId = memberList.length > 0 ? Math.max(...memberList.map(m => m.id)) + 1 : 1;
-            const newMember = {
-                id: nextId,
-                avatar: document.getElementById('in-avatar').value || "⚽", name: name, username: document.getElementById('in-username').value || "@username",
-                followers: parseInt(document.getElementById('in-followers').value) || 0, followersTxt: document.getElementById('in-followersTxt').value || "0",
-                likes: parseInt(document.getElementById('in-likes').value) || 0, likesTxt: document.getElementById('in-likesTxt').value || "0",
-                following: document.getElementById('in-following').value || "0", tiktokUrl: document.getElementById('in-url').value || "https://www.tiktok.com/",
-                bioJa: document.getElementById('in-bioJa').value.replace(/\n/g, '<br>') || "紹介文なし", bioEn: document.getElementById('in-bioEn').value.replace(/\n/g, '<br>') || "No description"
+        function initiateEdit(id) {
+            const target = localRawData.find(m => String(m.id) === String(id));
+            if (!target) return;
+
+            document.getElementById('modalTitle').innerText = "MEMBER PROFILE EDITOR";
+            document.getElementById('editTargetId').value = target.id;
+            document.getElementById('formTag').value = target.tag || "editor";
+            document.getElementById('formAvatar').value = target.avatar || "⚽";
+            document.getElementById('formName').value = target.name || "";
+            document.getElementById('formUser').value = target.username || "";
+            document.getElementById('formFollowers').value = target.followers || 0;
+            document.getElementById('formFollowersTxt').value = target.followersTxt || "0";
+            document.getElementById('formLikes').value = target.likes || 0;
+            document.getElementById('formLikesTxt').value = target.likesTxt || "0";
+            document.getElementById('formFollowing').value = target.following || "0";
+            document.getElementById('formUrl').value = target.tiktokUrl || "https://www.tiktok.com/";
+            document.getElementById('memberModal').classList.add('active');
+        }
+
+        function dismissModal() { document.getElementById('memberModal').classList.remove('active'); }
+
+        function commitMemberData() {
+            const name = document.getElementById('formName').value.trim();
+            if (!name) { alert("名前は必ず入力してくれ！"); return; }
+
+            const existingId = document.getElementById('editTargetId').value;
+            const targetId = existingId ? existingId : 'mem_' + Date.now();
+
+            const pack = {
+                id: targetId,
+                tag: document.getElementById('formTag').value,
+                avatar: document.getElementById('formAvatar').value.trim() || "⚽",
+                name: name,
+                username: document.getElementById('formUser').value.trim() || "@username",
+                followers: parseInt(document.getElementById('formFollowers').value) || 0,
+                followersTxt: document.getElementById('formFollowersTxt').value.trim() || "0",
+                likes: parseInt(document.getElementById('formLikes').value) || 0,
+                likesTxt: document.getElementById('formLikesTxt').value.trim() || "0",
+                following: document.getElementById('formFollowing').value.trim() || "0",
+                tiktokUrl: document.getElementById('formUrl').value.trim() || "https://www.tiktok.com/"
             };
 
-            // 🚀 直接シンガポールのデータ倉庫（Firebase）にぶち込む！
-            database.ref('members/' + nextId).set(newMember);
-
-            closeModal();
-            document.getElementById('in-name').value = ''; document.getElementById('in-username').value = ''; document.getElementById('in-followers').value = ''; document.getElementById('in-followersTxt').value = ''; document.getElementById('in-likes').value = ''; document.getElementById('in-likesTxt').value = ''; document.getElementById('in-bioJa').value = ''; document.getElementById('in-bioEn').value = '';
+            database.ref('members/' + targetId).set(pack)
+            .then(() => dismissModal())
+            .catch(err => alert("通信エラー: " + err.message));
         }
 
-        function toggleSettings() { document.getElementById('settingsPanel').classList.toggle('open'); }
-        function changeLayout(type) {
-            const container = document.getElementById('mainContainer');
-            if (type === 'grid') { container.classList.replace('layout-slim', 'layout-grid'); document.getElementById('btn-grid').classList.add('active'); document.getElementById('btn-slim').classList.remove('active'); }
-            else { container.classList.replace('layout-grid', 'layout-slim'); document.getElementById('btn-slim').classList.add('active'); document.getElementById('btn-grid').classList.remove('active'); }
+        // ==========================================
+        // 🚨 カスタム確認ダイアログの制御ロジック
+        // ==========================================
+        function openCyberConfirm(id, name) {
+            pendingDeleteId = id; // 削除対象を一時キープ
+            document.getElementById('confirmMsg').innerHTML = `本当に <strong>【${name}】</strong> のカードを消去するんだな？<br>Firebaseのデータからも跡形もなく消えるぜ。`;
+            document.getElementById('cyberConfirm').classList.add('active');
         }
-        function sortCards(criteria, btn) {
-            if (criteria === 'followers') memberList.sort((a, b) => b.followers - a.followers);
-            else if (criteria === 'likes') memberList.sort((a, b) => b.likes - a.likes);
-            else memberList.sort((a, b) => a.id - b.id);
-            renderCards(); btn.parentElement.querySelectorAll('.select-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
-        }
-        function changeTheme(theme, btn) { document.body.setAttribute('data-theme', theme); btn.parentElement.querySelectorAll('.select-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); }
-        function changeLang(lang, btn) {
-            currentLang = lang; const data = staticLangData[lang];
-            document.getElementById('main-title').innerHTML = data.title; document.getElementById('main-sub').innerText = data.sub; document.getElementById('set-view-title').innerText = data.viewTitle; document.getElementById('set-sort-title').innerText = data.sortTitle; document.getElementById('set-theme-title').innerText = data.themeTitle; document.getElementById('set-lang-title').innerText = data.langTitle; document.getElementById('set-admin-title').innerText = data.adminTitle;
-            renderCards(); btn.parentElement.querySelectorAll('.select-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active');
+
+        function closeCyberConfirm(isConfirmed) {
+            document.getElementById('cyberConfirm').classList.remove('active');
+            
+            // DELETEが押され、かつ対象IDがある時だけ実行
+            if (isConfirmed && pendingDeleteId) {
+                database.ref('members/' + pendingDeleteId).remove();
+            }
+            pendingDeleteId = null; // 終わったらリセット
         }
     </script>
 </body>
