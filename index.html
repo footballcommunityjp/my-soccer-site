@@ -264,7 +264,7 @@
         .link-btn:hover { box-shadow: 0 0 25px var(--neon-cyan); transform: scale(1.02); }
 
         /* ==========================================
-           💬 HUB CHAT (一言掲示板) ★入力欄超巨大化
+           💬 HUB CHAT (一言掲示板) ★オンラインリスト追加
            ========================================== */
         .bbs-container {
             width: 95%; max-width: 950px; margin: 50px auto 20px auto;
@@ -275,7 +275,7 @@
             border-radius: 1px; padding: 24px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
             position: relative; overflow: hidden; box-sizing: border-box;
         }
-        .bbs-header-zone { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
+        .bbs-header-zone { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
         .bbs-title { margin: 0; font-size: 18px; font-weight: 900; letter-spacing: 2.5px; color: #ffffff; display: flex; align-items: center; gap: 10px; }
         .bbs-title i { color: var(--neon-cyan); }
         
@@ -285,6 +285,17 @@
             color: var(--neon-cyan); display: flex; align-items: center; gap: 6px;
         }
         .online-dot { width: 7px; height: 7px; background-color: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--neon-cyan); }
+
+        /* 🟢 オンラインID表示ゾーン */
+        .online-members-list {
+            background: rgba(0,0,0,0.4); border: 1px solid rgba(0, 255, 204, 0.15);
+            border-radius: 8px; padding: 8px 12px; font-size: 12px; color: #94a3b8;
+            margin-bottom: 16px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+        }
+        .online-id-badge {
+            background: rgba(0, 255, 204, 0.12); border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan); padding: 2px 8px; border-radius: 4px; font-family: monospace; font-weight: bold;
+        }
 
         .bbs-board {
             height: 450px; overflow-y: auto; background: rgba(2, 5, 12, 0.8);
@@ -306,6 +317,7 @@
         .bbs-content-block { flex: 1; min-width: 0; }
         .bbs-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
         .bbs-author { color: var(--neon-cyan); font-weight: 800; font-size: 14px; }
+        .bbs-user-id-tag { color: var(--sub-text); font-family: monospace; font-size: 11px; font-weight: bold; }
         .admin-msg-row .bbs-author { color: #ff55a5; }
         .bbs-admin-badge { background: linear-gradient(90deg, #ff0055, var(--neon-pink)); color: white; font-size: 9px; font-weight: 900; padding: 1px 6px; border-radius: 4px; }
         .bbs-time { color: var(--sub-text); font-size: 10px; }
@@ -315,7 +327,7 @@
         .bbs-del-btn { background: none; border: none; color: #475569; cursor: pointer; padding: 4px 8px; font-size: 14px; display: none; }
         .bbs-del-btn:hover { color: var(--neon-pink); transform: scale(1.2); }
         
-        /* 🚨 スマホでも絶対つぶれない入力フォーム配置 */
+        /* 🚨 スマホフォーム配置 */
         .bbs-form {
             display: flex; flex-direction: column; gap: 12px; margin-top: 20px; width: 100%; box-sizing: border-box;
         }
@@ -339,7 +351,6 @@
         }
         .name-lock-btn.locked { color: var(--neon-cyan); border-color: var(--neon-cyan); }
 
-        /* クリップ/カメラボタンを押しやすく拡大 */
         .bbs-media-attach-btn {
             background: rgba(0,0,0,0.5); border: 2px solid var(--card-border); color: var(--neon-cyan);
             cursor: pointer; font-size: 18px; width: 54px; height: 48px; border-radius: 10px;
@@ -347,7 +358,13 @@
         }
         .bbs-media-attach-btn.attached { color: #000; background: var(--neon-cyan); border-color: var(--neon-cyan); }
 
-        /* メッセージ入力欄をめちゃくちゃデカく */
+        /* 自分のIDを表示するバッジ */
+        .my-id-display-tag {
+            font-size: 11px; font-family: monospace; background: rgba(255,255,255,0.05);
+            border: 1px solid var(--card-border); border-radius: 8px; padding: 0 10px;
+            height: 48px; display: flex; align-items: center; color: var(--sub-text); white-space: nowrap;
+        }
+
         .bbs-input-main-line {
             display: flex; gap: 10px; width: 100%; box-sizing: border-box;
         }
@@ -358,7 +375,6 @@
         }
         .bbs-input-text:focus { border-color: var(--neon-pink); outline: none; }
         
-        /* 送信ボタンを下に大きく配置 */
         .bbs-send-btn {
             background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%); color: #030712;
             border: none; font-weight: 900; padding: 14px; border-radius: 10px; cursor: pointer;
@@ -542,6 +558,11 @@
                 <div class="online-dot"></div><span id="onlineCountNumber">1</span> 人がオンライン
             </div>
         </div>
+
+        <div class="online-members-list" id="onlineMembersList">
+            <span>🟢 現在潜入中:</span>
+            <div id="onlineBadgesStage" style="display:flex; gap:6px; flex-wrap:wrap;"></div>
+        </div>
         
         <div class="bbs-board" id="bbsBoard">
             <div class="empty-state" style="padding:20px 0;">メッセージを読み込み中...</div>
@@ -558,6 +579,8 @@
                 <input type="file" id="bbsFilePicker" accept="image/*,video/*" style="display:none;" onchange="handleChatMediaSelect(this)">
                 <input type="hidden" id="bbsMediaDataHolder">
                 <input type="hidden" id="bbsMediaTypeHolder">
+
+                <div class="my-id-display-tag" id="myIdDisplayTag">ID: ----</div>
             </div>
             
             <div class="bbs-input-main-line">
@@ -680,7 +703,6 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // 🛡️ 【最重要防衛】管理者コード！
         const MASTER_CODE = "ここに新しい秘密のコード";
 
         let localRawData = [];
@@ -693,6 +715,14 @@
         let confirmContext = "delete_card";
         let pendingDeleteId = null;
         let pendingDeleteChatKey = null;
+
+        // 🆔 【永久保存IDの生成・読み込みシステム】
+        let myPermanentId = localStorage.getItem('fc_permanent_user_id');
+        if (!myPermanentId) {
+            myPermanentId = 'ID-' + Math.floor(1000 + Math.random() * 9000); // 4桁のランダム数字ID
+            localStorage.setItem('fc_permanent_user_id', myPermanentId);
+        }
+        document.getElementById('myIdDisplayTag').innerText = "#" + myPermanentId;
 
         database.ref('members').on('value', (snapshot) => {
             const val = snapshot.val();
@@ -743,9 +773,8 @@
             document.getElementById('cyberConfirm').classList.add('active');
         }
 
-        // 👥 【修正版】ガチのリアルタイム人数カウント
-        const myUserId = 'user_' + Math.floor(Math.random() * 1000000);
-        const myPresenceRef = database.ref('online_users/' + myUserId);
+        // 👥 【進化版】オンラインメンバーIDリアルタイム同期
+        const myPresenceRef = database.ref('online_users/' + myPermanentId);
         const connectedRef = database.ref('.info/connected');
         
         connectedRef.on('value', (snap) => {
@@ -758,6 +787,18 @@
         database.ref('online_users').on('value', (snap) => {
             const count = snap.numChildren() || 1;
             document.getElementById('onlineCountNumber').innerText = count;
+
+            const stage = document.getElementById('onlineBadgesStage');
+            stage.innerHTML = '';
+            if (snap.exists()) {
+                snap.forEach((child) => {
+                    const onlineId = child.key;
+                    const badge = document.createElement('span');
+                    badge.className = 'online-id-badge';
+                    badge.innerText = '#' + onlineId;
+                    stage.appendChild(badge);
+                });
+            }
         });
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -882,6 +923,7 @@
                 const msg = childSnapshot.val();
                 const cleanName = escapeHtml(msg.name || '名無し');
                 const cleanText = escapeHtml(msg.text || '');
+                const displayUserId = msg.userId ? escapeHtml(msg.userId) : '????';
                 const timeStr = msg.time || '';
                 
                 lastAuthor = cleanName; lastText = cleanText ? cleanText : "📂 メディアファイルを送信";
@@ -903,6 +945,7 @@
                         <div class="bbs-content-block">
                             <div class="bbs-meta">
                                 <span class="bbs-author">${cleanName}</span>
+                                <span class="bbs-user-id-tag">#${displayUserId}</span>
                                 ${adminBadge}
                                 <span class="bbs-time">${timeStr}</span>
                             </div>
@@ -949,7 +992,11 @@
             const timeStr = `${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
             const msgPack = { 
-                name: name, text: text, time: timeStr, timestamp: Date.now(),
+                name: name, 
+                text: text, 
+                time: timeStr, 
+                timestamp: Date.now(),
+                userId: myPermanentId, // 🆔 メッセージに永久IDを紐付け！
                 isAdminMessage: isAdminLoggedIn
             };
 
