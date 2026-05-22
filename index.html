@@ -91,7 +91,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* 👑 超美麗サイバーヘッダー */
         .header-wrapper {
             width: 100%; background: rgba(3, 7, 18, 0.3);
             backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
@@ -108,7 +107,6 @@
             text-shadow: 0 0 20px var(--glow-color);
         }
 
-        /* ⚙️ 設定ギアボタン */
         .settings-btn {
             position: absolute; right: 10px; background: none; border: none;
             color: var(--text-color); font-size: 22px; cursor: pointer;
@@ -117,7 +115,6 @@
         }
         .settings-btn:hover { transform: rotate(90deg) scale(1.1); color: var(--neon-cyan); }
 
-        /* 🛡️ 近未来コントロールセンター */
         .control-panel {
             position: absolute; top: 80px; right: 20px; background: var(--panel-bg);
             border: 1px solid var(--card-border); border-radius: 16px; padding: 20px;
@@ -138,7 +135,6 @@
         .ui-btn.active { background: var(--neon-cyan); color: #030712; border-color: var(--neon-cyan); box-shadow: 0 0 12px var(--glow-color); }
         .secret-input { background: rgba(0,0,0,0.6); border: 1px solid var(--card-border); border-radius: 8px; padding: 8px; color: #fff; font-size: 12px; width: 100%; box-sizing: border-box; text-align: center; }
 
-        /* 📰 ニュース速報テロップ（Ticker）システム */
         .ticker-wrapper {
             width: 100%; max-width: 500px; background: rgba(255, 0, 127, 0.06);
             border: 1px solid rgba(255, 0, 127, 0.25); border-radius: 8px;
@@ -162,9 +158,7 @@
             0% { transform: translate3d(0, 0, 0); }
             100% { transform: translate3d(-100%, 0, 0); }
         }
-        .ticker-text:hover { animation-play-state: paused; cursor: pointer; }
 
-        /* 🔍 検索・タグ・表示モード切替エリア */
         .search-filter-area { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 500px; }
         .search-box-wrapper { position: relative; width: 100%; }
         .search-box-wrapper i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--sub-text); font-size: 14px; }
@@ -183,18 +177,14 @@
         }
         .tag-btn.active { background: rgba(0, 255, 204, 0.1); border-color: var(--neon-cyan); color: var(--neon-cyan); }
 
-        /* 🔄 表示モード切替スイッチャーボタン */
         .view-switch-box { display: flex; justify-content: center; margin-top: 5px; gap: 10px; }
         .switch-mode-btn {
             background: rgba(0,0,0,0.5); border: 1px solid var(--card-border); color: #fff;
             font-size: 12px; font-weight: 800; padding: 8px 16px; border-radius: 8px; cursor: pointer;
             display: flex; align-items: center; gap: 6px; transition: all 0.3s;
         }
-        .switch-mode-btn.active {
-            border-color: var(--neon-pink); color: var(--neon-pink); box-shadow: 0 0 10px rgba(255,0,127,0.2);
-        }
+        .switch-mode-btn.active { border-color: var(--neon-pink); color: var(--neon-pink); box-shadow: 0 0 10px rgba(255,0,127,0.2); }
 
-        /* 🗂️ メイングリッドコンテナ */
         .main-container {
             width: 100%; max-width: 1200px; padding: 30px 20px; box-sizing: border-box;
             display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;
@@ -202,7 +192,6 @@
         }
         .main-container.gallery-mode { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; padding: 30px 15px; }
 
-        /* 🃏 サイバーカード */
         .member-card {
             background: var(--card-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border); border-radius: 20px; padding: 30px 24px;
@@ -274,9 +263,8 @@
         }
         .link-btn:hover { box-shadow: 0 0 25px var(--neon-cyan); transform: scale(1.02); }
 
-
         /* ==========================================
-           💬 HUB CHAT (超強化プレミアムサイバーBBS)
+           💬 HUB CHAT (一言掲示板)
            ========================================== */
         .bbs-container {
             width: 92%; max-width: 750px; margin: 50px auto 20px auto;
@@ -293,9 +281,7 @@
             background: linear-gradient(45deg, transparent 48%, rgba(255, 0, 127, 0.03) 50%, transparent 52%);
             background-size: 10px 10px; pointer-events: none;
         }
-        .bbs-header-zone {
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;
-        }
+        .bbs-header-zone { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
         .bbs-title {
             margin: 0; font-size: 16px; font-weight: 900; letter-spacing: 2.5px;
             color: #ffffff; display: flex; align-items: center; gap: 10px;
@@ -303,7 +289,6 @@
         }
         .bbs-title i { color: var(--neon-cyan); filter: drop-shadow(0 0 5px var(--neon-cyan)); }
         
-        /* 👥 リアルタイム人数カウンター表示 */
         .online-counter {
             background: rgba(0, 255, 204, 0.07); border: 1px solid rgba(0, 255, 204, 0.3);
             padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 900;
@@ -324,7 +309,6 @@
             box-shadow: inset 0 5px 20px rgba(0,0,0,0.6); scroll-behavior: smooth;
         }
 
-        /* 🎬 チャット出現モーション */
         .bbs-row {
             font-size: 12px; line-height: 1.6; padding: 10px 14px; border-radius: 10px;
             background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
@@ -334,9 +318,7 @@
             opacity: 0; transform: translateY(12px) scale(0.98);
             animation: chatSlideIn 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
-        @keyframes chatSlideIn {
-            to { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1.2); }
-        }
+        @keyframes chatSlideIn { to { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1.2); } }
         
         .bbs-row.admin-msg-row { border-left-color: var(--neon-pink); background: linear-gradient(90deg, rgba(255, 0, 127, 0.05) 0%, transparent 100%); }
         .bbs-content-block { flex: 1; min-width: 0; }
@@ -358,10 +340,7 @@
         }
         .bbs-del-btn:hover { color: var(--neon-pink); transform: scale(1.2); }
         
-        /* 🔐 【バグ修正】名前固定用サイバーフォームフォーム */
         .bbs-form { display: flex; gap: 8px; margin-top: 16px; align-items: center; width: 100%; box-sizing: border-box; }
-        
-        /* 名前入力と鍵ボタンを分けるコンテナ */
         .name-and-lock-zone { display: flex; align-items: center; gap: 4px; width: 135px; flex-shrink: 0; }
         
         .bbs-input-name {
@@ -374,7 +353,6 @@
             color: var(--neon-cyan); cursor: not-allowed; text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
         }
         
-        /* 鍵ボタンを外側に完全独立（文字が絶対隠れない） */
         .name-lock-btn {
             background: rgba(0,0,0,0.5); border: 1px solid var(--card-border); color: var(--sub-text);
             cursor: pointer; font-size: 12px; width: 32px; height: 35px; border-radius: 8px;
@@ -397,14 +375,10 @@
         }
         .bbs-send-btn:hover { background: #fff; box-shadow: 0 0 15px var(--neon-cyan); transform: translateY(-1px); }
 
-
         /* ==========================================
            🔔 REALTIME NOTIFICATION TOAST
            ========================================== */
-        .toast-container {
-            position: fixed; top: 20px; right: 20px; z-index: 1000000;
-            display: flex; flex-direction: column; gap: 10px; pointer-events: none;
-        }
+        .toast-container { position: fixed; top: 20px; right: 20px; z-index: 1000000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
         .cyber-toast {
             background: rgba(6, 11, 25, 0.95); border: 1px solid var(--neon-cyan);
             border-left: 4px solid var(--neon-cyan); padding: 12px 20px; border-radius: 8px;
@@ -412,16 +386,13 @@
             color: white; pointer-events: auto; min-width: 240px; max-width: 320px;
             display: flex; flex-direction: column; gap: 4px;
             transform: translateX(120%); opacity: 0;
-            animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
-                       toastOut 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards 4s;
+            animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, toastOut 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards 4s;
         }
         @keyframes toastIn { to { transform: translateX(0); opacity: 1; } }
         @keyframes toastOut { to { transform: translateX(150%); opacity: 0; } }
-        
         .toast-head { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 11px; color: var(--neon-cyan); letter-spacing: 1px; }
         .toast-body { font-size: 12px; color: #e2e8f0; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-        /* ➕ フローティングクリエイトボタン */
         .add-float-btn {
             position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; border-radius: 50%;
             background: linear-gradient(135deg, var(--neon-pink), #ff0055); border: 2px solid #ffffff;
@@ -432,7 +403,6 @@
         }
         .add-float-btn.visible { opacity: 1; transform: scale(1) rotate(0deg); pointer-events: auto; }
 
-        /* 🎬 ネオン・インプット・モーダル */
         .modal-mask {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
@@ -477,7 +447,6 @@
         .form-btn.back { background: #1e293b; color: #94a3b8; }
         .form-btn.go { background: var(--neon-cyan); color: #030712; }
 
-        /* 🛡️ 警告確認ダイアログ */
         .confirm-mask {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
@@ -703,16 +672,15 @@
     </div>
 
     <script>
-        // ==========================================
-        // ⚙️ Firebase 連携コア設定
-        // ==========================================
         const firebaseConfig = {
             databaseURL: "https://footballcommunityjp-default-rtdb.asia-southeast1.firebasedatabase.app/", 
             projectId: "footballcommunityjp"
         };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
-        const MASTER_CODE = "nitbskean";
+
+        // 🚨 【最重要防衛】管理者コード！ここに全く別の、推測できない英語や数字のパスワードを入れてくれ！
+        const MASTER_CODE = "ここに新しい秘密のコード";
 
         let localRawData = [];
         let activeSort = 'default';
@@ -725,14 +693,12 @@
         let pendingDeleteId = null;
         let pendingDeleteChatKey = null;
 
-        // 📦 メンバーデータの同期
         database.ref('members').on('value', (snapshot) => {
             const val = snapshot.val();
             localRawData = val ? Object.values(val) : [];
             processAndRender();
         });
 
-        // 📰 ライブニュース速報の同期システム
         database.ref('live_news_flash').on('value', (snapshot) => {
             const currentNews = snapshot.val();
             const tickerWrapper = document.getElementById('liveTickerWrapper');
@@ -741,7 +707,6 @@
             if (currentNews && currentNews.text && currentNews.text.trim() !== "") {
                 tickerTextEl.innerText = currentNews.text;
                 tickerWrapper.classList.add('active'); 
-                
                 tickerTextEl.style.animation = 'none';
                 tickerTextEl.offsetHeight; 
                 tickerTextEl.style.animation = 'tickerMove 20s linear infinite';
@@ -759,7 +724,7 @@
             confirmContext = "publish_news";
             document.getElementById('confirmIcon').innerHTML = `<i class="fa-solid fa-paper-plane" style="color:var(--neon-cyan);"></i>`;
             document.getElementById('confirmTitle').innerText = "LIVE NEWS TRANSMIT";
-            document.getElementById('confirmMsg').innerHTML = `以下のニュース速報を全員の画面へ配信するぞ。誤字脱字はないな？<br><br><span style="color:#fff; font-weight:bold;">「【速報】${newText}」</span>`;
+            document.getElementById('confirmMsg').innerHTML = `以下のニュース速報を全員の画面へ配信するぞ。<br><br><span style="color:#fff; font-weight:bold;">「【速報】${newText}」</span>`;
             document.getElementById('confirmYesBtn').innerText = "配信開始";
             document.getElementById('confirmYesBtn').style.background = "var(--neon-cyan)";
             document.getElementById('confirmYesBtn').style.color = "#030712";
@@ -771,7 +736,7 @@
             confirmContext = "clear_news";
             document.getElementById('confirmIcon').innerHTML = `<i class="fa-solid fa-trash-can" style="color:#ff0055;"></i>`;
             document.getElementById('confirmTitle').innerText = "CLEAR LIVE NEWS";
-            document.getElementById('confirmMsg').innerHTML = "配信中のニュース速報を消去するぞ。<br>全員の画面からニュースバーごと完全に消滅するが大丈夫だな？";
+            document.getElementById('confirmMsg').innerHTML = "配信中のニュース速報を消去するぞ。";
             document.getElementById('confirmYesBtn').innerText = "速報を消去";
             document.getElementById('confirmYesBtn').style.background = "#ff0055";
             document.getElementById('confirmYesBtn').style.color = "#fff";
@@ -779,37 +744,26 @@
             document.getElementById('cyberConfirm').classList.add('active');
         }
 
-        // ==========================================
-        // 👥 リアルタイム人数カウンター同期ロジック
-        // ==========================================
         const myConnectionsRef = database.ref('connections').push();
         const connectedRef = database.ref('.info/connected');
-
         connectedRef.on('value', (snap) => {
             if (snap.val() === true) {
                 myConnectionsRef.onDisconnect().remove();
                 myConnectionsRef.set(true);
             }
         });
-
         database.ref('connections').on('value', (snap) => {
             const count = snap.numChildren() || 0;
             document.getElementById('onlineCountNumber').innerText = count;
         });
 
-        // ==========================================
-        // 💬 HUB CHAT コア・同期システム (ガチ名前ロック対応)
-        // ==========================================
-        
         window.addEventListener('DOMContentLoaded', () => {
             const savedName = localStorage.getItem('fc_bbs_username');
             const isLocked = localStorage.getItem('fc_bbs_namelocked');
             const nameInput = document.getElementById('bbsName');
             const lockBtn = document.getElementById('nameLockBtn');
             
-            if (savedName) {
-                nameInput.value = savedName;
-            }
+            if (savedName) nameInput.value = savedName;
             
             if (isLocked === 'true') {
                 nameInput.disabled = true;
@@ -822,35 +776,54 @@
             }
         });
 
-        // 🔐 【バグ修正】誰でも簡単に解除できない頑丈なセキュリティロックに変更
+        // 🛡️ 【バグ修正＆防衛】名前のロック解除は、自分だけが知ってる個別パスワード（または管理者コード）にする
         function toggleNameLock() {
             const nameInput = document.getElementById('bbsName');
             const lockBtn = document.getElementById('nameLockBtn');
             
             if (nameInput.disabled) {
-                // ロックを解除しようとしたとき、管理者じゃなければパスコードを要求する
-                if (!isAdminLoggedIn) {
-                    const pass = prompt("名前の固定ロックを解除するには管理コードを入力してくれ：");
-                    if (pass !== MASTER_CODE) {
-                        alert("コードが違うぜ！名前は固定されたままだ。");
-                        return;
-                    }
+                // すでに管理ログインしているならそのまま解除OK
+                if (isAdminLoggedIn) {
+                    nameInput.disabled = false;
+                    lockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i>`;
+                    lockBtn.classList.remove('locked');
+                    localStorage.setItem('fc_bbs_namelocked', 'false');
+                    nameInput.focus();
+                    return;
                 }
-                // 管理者、または正しいコードを入れた場合は解除できる
-                nameInput.disabled = false;
-                lockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i>`;
-                lockBtn.classList.remove('locked');
-                localStorage.setItem('fc_bbs_namelocked', 'false');
-                nameInput.focus();
+
+                // ロック時に保存した秘密の合言葉、または管理者コードでのみ解除可能にする
+                const pass = prompt("名前の固定を解除するためのパスコードを入力してくれ：\n（※自分で設定したロック解除パスワード、または管理コード）");
+                const savedUnlockKey = localStorage.getItem('fc_bbs_unlockkey');
+
+                if (pass === MASTER_CODE || (savedUnlockKey && pass === savedUnlockKey)) {
+                    nameInput.disabled = false;
+                    lockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i>`;
+                    lockBtn.classList.remove('locked');
+                    localStorage.setItem('fc_bbs_namelocked', 'false');
+                    nameInput.focus();
+                } else {
+                    alert("コードが違うぜ！名前は固定されたままだ。");
+                }
             } else {
-                // 新しく名前をロックする処理
+                // 新しく名前をロックするときに、その場で「自分専用の解除用パスワード」を決めさせる！
                 const finalName = nameInput.value.trim() || '名無し';
+                const userKey = prompt("この名前をロックするぜ！\n次にロックを解除するときに使う【自分だけの秘密のパスワード】を自由に決めて入力してくれ：");
+                
+                if (!userKey || userKey.trim() === "") {
+                    alert("パスワードが空っぽだからロックを中止したぜ！");
+                    return;
+                }
+
                 nameInput.value = finalName;
                 localStorage.setItem('fc_bbs_username', finalName);
+                localStorage.setItem('fc_bbs_unlockkey', userKey.trim()); // ブラウザにこっそり保存
                 localStorage.setItem('fc_bbs_namelocked', 'true');
+                
                 nameInput.disabled = true;
                 lockBtn.innerHTML = `<i class="fa-solid fa-lock"></i>`;
                 lockBtn.classList.add('locked');
+                alert("名前をガチ固定したぜ！");
             }
         }
 
@@ -869,7 +842,6 @@
                 <div class="toast-body"><strong>${author}:</strong> ${text}</div>
             `;
             container.appendChild(toast);
-            
             setTimeout(() => { toast.remove(); }, 4500);
         }
 
@@ -878,25 +850,21 @@
             board.innerHTML = '';
             
             if (!snapshot.exists()) {
-                board.innerHTML = '<div class="empty-state" style="padding:20px 0;">まだ誰も書き込んでないぜ！最初のメッセージをどうぞ。</div>';
+                board.innerHTML = '<div class="empty-state" style="padding:20px 0;">まだ誰も書き込んでないぜ！</div>';
                 isInitialLoadFinished = true; 
                 return;
             }
 
-            let lastAuthor = "";
-            let lastText = "";
+            let lastAuthor = ""; let lastText = "";
 
             snapshot.forEach((childSnapshot) => {
                 const key = childSnapshot.key;
                 const msg = childSnapshot.val();
-                
                 const cleanName = escapeHtml(msg.name || '名無し');
                 const cleanText = escapeHtml(msg.text || '');
                 const timeStr = msg.time || '';
                 
-                lastAuthor = cleanName;
-                lastText = cleanText;
-
+                lastAuthor = cleanName; lastText = cleanText;
                 const isAdmin = msg.isAdminMessage;
                 const adminBadge = isAdmin ? `<span class="bbs-admin-badge"><i class="fa-solid fa-crown"></i> ADMIN</span>` : '';
                 const rowClass = isAdmin ? 'bbs-row admin-msg-row' : 'bbs-row';
@@ -919,17 +887,11 @@
             
             board.scrollTop = board.scrollHeight;
             refreshChatAdminUI();
-
-            if (isInitialLoadFinished) {
-                spawnNotification(lastAuthor, lastText);
-            }
-            
+            if (isInitialLoadFinished) spawnNotification(lastAuthor, lastText);
             isInitialLoadFinished = true; 
         });
 
-        function escapeHtml(str) {
-            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
+        function escapeHtml(str) { return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
         function sendBbsMessage() {
             const nameInput = document.getElementById('bbsName');
@@ -939,10 +901,11 @@
 
             if (!text) return;
 
-            // 送信時にまだロックされていなければ自動でロックする
+            // 送信時にロックされていなければ、パスワード設定なしの簡易自動ロックをかける
             if (!nameInput.disabled) {
                 nameInput.value = name;
                 localStorage.setItem('fc_bbs_username', name);
+                localStorage.setItem('fc_bbs_unlockkey', "1234"); // 自動時はデフォルト
                 localStorage.setItem('fc_bbs_namelocked', 'true');
                 nameInput.disabled = true;
                 const lockBtn = document.getElementById('nameLockBtn');
@@ -951,13 +914,10 @@
             }
 
             const now = new Date();
-            const timeStr = `${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')} ${String(now.getMinutes()).padStart(2,'0')}`;
+            const timeStr = `${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
 
             const msgPack = { 
-                name: name, 
-                text: text, 
-                time: timeStr, 
-                timestamp: Date.now(),
+                name: name, text: text, time: timeStr, timestamp: Date.now(),
                 isAdminMessage: isAdminLoggedIn
             };
 
@@ -970,10 +930,9 @@
             if(event) event.stopPropagation();
             confirmContext = "delete_chat";
             pendingDeleteChatKey = key;
-
             document.getElementById('confirmIcon').innerHTML = `<i class="fa-solid fa-comment-slash" style="color:#ff0055;"></i>`;
             document.getElementById('confirmTitle').innerText = "DELETE CHAT MESSAGE";
-            document.getElementById('confirmMsg').innerHTML = "このチャットメッセージを削除するんだな？<br>全員の画面からも即座に消去されるぞ。";
+            document.getElementById('confirmMsg').innerHTML = "このチャットメッセージを削除するんだな？";
             document.getElementById('confirmYesBtn').innerText = "メッセージ削除";
             document.getElementById('confirmYesBtn').style.background = "#ff0055";
             document.getElementById('confirmYesBtn').style.color = "#fff";
@@ -986,15 +945,10 @@
             const grid = document.getElementById('cardsGrid');
             const cardBtn = document.getElementById('modeCardBtn');
             const galleryBtn = document.getElementById('modeGalleryBtn');
-
             if (mode === 'gallery') {
-                grid.classList.add('gallery-mode');
-                galleryBtn.classList.add('active');
-                cardBtn.classList.remove('active');
+                grid.classList.add('gallery-mode'); galleryBtn.classList.add('active'); cardBtn.classList.remove('active');
             } else {
-                grid.classList.remove('gallery-mode');
-                cardBtn.classList.add('active');
-                galleryBtn.classList.remove('active');
+                grid.classList.remove('gallery-mode'); cardBtn.classList.add('active'); galleryBtn.classList.remove('active');
             }
             processAndRender();
         }
@@ -1034,9 +988,7 @@
 
         function refreshChatAdminUI() {
             const delButtons = document.querySelectorAll('.bbs-del-btn');
-            delButtons.forEach(btn => {
-                btn.style.display = isAdminLoggedIn ? 'block' : 'none';
-            });
+            delButtons.forEach(btn => { btn.style.display = isAdminLoggedIn ? 'block' : 'none'; });
         }
 
         function processImageUpload(input) {
@@ -1076,7 +1028,6 @@
             toggleClearBtn(userEl);
         }
 
-        // テーマ切り替え
         function updateTheme(theme, element) {
             if (theme === 'cyber') document.body.removeAttribute('data-theme');
             else document.body.setAttribute('data-theme', theme);
@@ -1085,7 +1036,6 @@
             document.getElementById('controlPanel').classList.remove('open');
         }
 
-        // 並び替え
         function updateSort(criteria, element) {
             activeSort = criteria; processAndRender();
             element.parentElement.querySelectorAll('.ui-btn').forEach(b => b.classList.remove('active'));
@@ -1093,35 +1043,25 @@
             document.getElementById('controlPanel').classList.remove('open');
         }
 
-        // フィルタータグ
-        function filterTag(tag, element) {
-            activeTag = tag; processAndRender();
-            element.parentElement.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
-            element.classList.add('active');
-        }
-
+        function filterTag(tag, element) { activeTag = tag; processAndRender(); element.parentElement.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active')); element.classList.add('active'); }
         function filterMembers() { processAndRender(); }
 
-        // メイン描画
         function processAndRender() {
             let workingList = [...localRawData];
             if (activeTag !== 'all') workingList = workingList.filter(m => m.tag === activeTag);
-
             const keyword = document.getElementById('searchBar').value.toLowerCase().trim();
             if (keyword) {
                 workingList = workingList.filter(m => 
-                    (m.name && m.name.toLowerCase().includes(keyword)) || 
-                    (m.username && m.username.toLowerCase().includes(keyword))
+                    (m.name && m.name.toLowerCase().includes(keyword)) || (m.username && m.username.toLowerCase().includes(keyword))
                 );
             }
-
             if (activeSort === 'followers') workingList.sort((a, b) => (b.followers || 0) - (a.followers || 0));
             else if (activeSort === 'likes') workingList.sort((a, b) => (b.likes || 0) - (a.likes || 0));
             else workingList.sort((a, b) => String(a.id).localeCompare(String(b.id)));
 
             const grid = document.getElementById('cardsGrid'); grid.innerHTML = '';
             if (workingList.length === 0) {
-                grid.innerHTML = '<div class="empty-state"><i class="fa-solid fa-folder-open" style="font-size:24px;margin-bottom:10px;"></i><br>該当するメンバーが見つからないぜ</div>';
+                grid.innerHTML = '<div class="empty-state">該当するメンバーが見つからないぜ</div>';
                 return;
             }
 
@@ -1168,18 +1108,12 @@
         function launchModal(event) {
             if(event) event.stopPropagation();
             document.getElementById('modalTitle').innerText = "NEW MEMBER CREATOR";
-            document.getElementById('editTargetId').value = "";
-            document.getElementById('base64AvatarHolder').value = "";
-            document.getElementById('formName').value = "";
-            document.getElementById('formUser').value = "";
-            document.getElementById('formAvatar').value = "⚽";
-            document.getElementById('formFollowers').value = 0;
-            document.getElementById('formFollowersTxt').value = "0";
-            document.getElementById('formLikes').value = 0;
-            document.getElementById('formLikesTxt').value = "0";
-            document.getElementById('formFollowing').value = "0";
-            document.getElementById('formUrl').value = "https://www.tiktok.com/";
-            document.getElementById('nameCount').innerText = "0文字";
+            document.getElementById('editTargetId').value = ""; document.getElementById('base64AvatarHolder').value = "";
+            document.getElementById('formName').value = ""; document.getElementById('formUser').value = "";
+            document.getElementById('formAvatar').value = "⚽"; document.getElementById('formFollowers').value = 0;
+            document.getElementById('formFollowersTxt').value = "0"; document.getElementById('formLikes').value = 0;
+            document.getElementById('formLikesTxt').value = "0"; document.getElementById('formFollowing').value = "0";
+            document.getElementById('formUrl').value = "https://www.tiktok.com/"; document.getElementById('nameCount').innerText = "0文字";
             document.querySelectorAll('.modal-window input').forEach(el => toggleClearBtn(el));
             document.getElementById('memberModal').classList.add('active');
         }
@@ -1188,27 +1122,18 @@
             if(event) event.stopPropagation();
             const target = localRawData.find(m => String(m.id) === String(id));
             if (!target) return;
-
             document.getElementById('modalTitle').innerText = "MEMBER PROFILE EDITOR";
             document.getElementById('editTargetId').value = target.id;
             document.getElementById('formTag').value = target.tag || "editor";
-            
             if(target.avatar && target.avatar.startsWith('data:image')) {
-                document.getElementById('base64AvatarHolder').value = target.avatar;
-                document.getElementById('formAvatar').value = "[カスタム選手画像を選択中]";
+                document.getElementById('base64AvatarHolder').value = target.avatar; document.getElementById('formAvatar').value = "[カスタム選手画像を選択中]";
             } else {
-                document.getElementById('base64AvatarHolder').value = "";
-                document.getElementById('formAvatar').value = target.avatar || "⚽";
+                document.getElementById('base64AvatarHolder').value = ""; document.getElementById('formAvatar').value = target.avatar || "⚽";
             }
-            
-            document.getElementById('formName').value = target.name || "";
-            document.getElementById('formUser').value = target.username || "";
-            document.getElementById('formFollowers').value = target.followers || 0;
-            document.getElementById('formFollowersTxt').value = target.followersTxt || "0";
-            document.getElementById('formLikes').value = target.likes || 0;
-            document.getElementById('formLikesTxt').value = target.likesTxt || "0";
-            document.getElementById('formFollowing').value = target.following || "0";
-            document.getElementById('formUrl').value = target.tiktokUrl || "https://www.tiktok.com/";
+            document.getElementById('formName').value = target.name || ""; document.getElementById('formUser').value = target.username || "";
+            document.getElementById('formFollowers').value = target.followers || 0; document.getElementById('formFollowersTxt').value = target.followersTxt || "0";
+            document.getElementById('formLikes').value = target.likes || 0; document.getElementById('formLikesTxt').value = target.likesTxt || "0";
+            document.getElementById('formFollowing').value = target.following || "0"; document.getElementById('formUrl').value = target.tiktokUrl || "https://www.tiktok.com/";
             document.getElementById('nameCount').innerText = `${(target.name || "").length}文字`;
             document.querySelectorAll('.modal-window input').forEach(el => toggleClearBtn(el));
             document.getElementById('memberModal').classList.add('active');
@@ -1223,70 +1148,46 @@
             const existingId = document.getElementById('editTargetId').value;
             const targetId = existingId ? existingId : 'mem_' + Date.now();
             const b64 = document.getElementById('base64AvatarHolder').value;
-            
             let finalAvatar = document.getElementById('formAvatar').value.trim();
-            if (b64) { finalAvatar = b64; }
-            else if (finalAvatar === "[カスタム選手画像を選択中]") { finalAvatar = "⚽"; }
-
+            if (b64) finalAvatar = b64;
             const pack = {
                 id: targetId, tag: document.getElementById('formTag').value, avatar: finalAvatar, name: name,
                 username: document.getElementById('formUser').value.trim() || "@username",
-                followers: parseInt(document.getElementById('formFollowers').value) || 0,
-                followersTxt: document.getElementById('formFollowersTxt').value.trim() || "0",
-                likes: parseInt(document.getElementById('formLikes').value) || 0,
-                likesTxt: document.getElementById('formLikesTxt').value.trim() || "0",
-                following: document.getElementById('formFollowing').value.trim() || "0",
-                tiktokUrl: document.getElementById('formUrl').value.trim() || "https://www.tiktok.com/"
+                followers: parseInt(document.getElementById('formFollowers').value) || 0, followersTxt: document.getElementById('formFollowersTxt').value.trim() || "0",
+                likes: parseInt(document.getElementById('formLikes').value) || 0, likesTxt: document.getElementById('formLikesTxt').value.trim() || "0",
+                following: document.getElementById('formFollowing').value.trim() || "0", tiktokUrl: document.getElementById('formUrl').value.trim() || "https://www.tiktok.com/"
             };
             database.ref('members/' + targetId).set(pack).then(() => dismissModal()).catch(err => alert("エラー: " + err.message));
         }
 
         function openCyberConfirm(id, name, event) {
             if(event) event.stopPropagation();
-            confirmContext = "delete_card";
-            pendingDeleteId = id;
-            
+            confirmContext = "delete_card"; pendingDeleteId = id;
             document.getElementById('confirmIcon').innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:var(--neon-pink);"></i>`;
             document.getElementById('confirmTitle').innerText = "WARNING SYSTEM";
-            document.getElementById('confirmMsg').innerHTML = `本当に <strong>【${name}】</strong> のカードを消去するんだな？<br>Firebaseのデータからも跡形もなく消えるぜ。`;
+            document.getElementById('confirmMsg').innerHTML = `本当に <strong>【${name}】</strong> のカードを消去するんだな？`;
             document.getElementById('confirmYesBtn').innerText = "DELETE";
-            document.getElementById('confirmYesBtn').style.background = "linear-gradient(90deg, #ff0055, var(--neon-pink))";
-            document.getElementById('confirmYesBtn').style.color = "#fff";
-            document.getElementById('confirmYesBtn').style.boxShadow = "0 4px 15px rgba(255, 0, 127, 0.3)";
             document.getElementById('cyberConfirm').classList.add('active');
         }
 
         function closeCyberConfirm(isConfirmed) {
             document.getElementById('cyberConfirm').classList.remove('active');
-            
             if (isConfirmed) {
                 if (confirmContext === "delete_card" && pendingDeleteId) {
                     database.ref('members/' + pendingDeleteId).remove();
-                } 
-                else if (confirmContext === "publish_news") {
+                } else if (confirmContext === "publish_news") {
                     const newsInput = document.getElementById('adminNewsInput');
                     const newText = newsInput.value.trim();
-                    database.ref('live_news_flash').set({
-                        text: "【速報】" + newText,
-                        timestamp: Date.now()
-                    })
-                    .then(() => {
-                        newsInput.value = '';
-                        document.getElementById('controlPanel').classList.remove('open');
-                    });
-                } 
-                else if (confirmContext === "clear_news") {
+                    database.ref('live_news_flash').set({ text: "【速報】" + newText, timestamp: Date.now() })
+                    .then(() => { newsInput.value = ''; document.getElementById('controlPanel').classList.remove('open'); });
+                } else if (confirmContext === "clear_news") {
                     database.ref('live_news_flash').remove()
-                    .then(() => {
-                        document.getElementById('controlPanel').classList.remove('open');
-                    });
-                }
-                else if (confirmContext === "delete_chat" && pendingDeleteChatKey) {
+                    .then(() => { document.getElementById('controlPanel').classList.remove('open'); });
+                } else if (confirmContext === "delete_chat" && pendingDeleteChatKey) {
                     database.ref('bbs_messages/' + pendingDeleteChatKey).remove();
                 }
             }
-            pendingDeleteId = null;
-            pendingDeleteChatKey = null;
+            pendingDeleteId = null; pendingDeleteChatKey = null;
         }
     </script>
 </body>
