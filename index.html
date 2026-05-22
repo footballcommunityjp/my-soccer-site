@@ -293,13 +293,30 @@
             background: linear-gradient(45deg, transparent 48%, rgba(255, 0, 127, 0.03) 50%, transparent 52%);
             background-size: 10px 10px; pointer-events: none;
         }
+        .bbs-header-zone {
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;
+        }
         .bbs-title {
-            margin: 0 0 18px 0; font-size: 16px; font-weight: 900; letter-spacing: 2.5px;
+            margin: 0; font-size: 16px; font-weight: 900; letter-spacing: 2.5px;
             color: #ffffff; display: flex; align-items: center; gap: 10px;
             text-shadow: 0 0 15px var(--glow-color);
         }
         .bbs-title i { color: var(--neon-cyan); filter: drop-shadow(0 0 5px var(--neon-cyan)); }
         
+        /* 👥 リアルタイム人数カウンター表示 */
+        .online-counter {
+            background: rgba(0, 255, 204, 0.07); border: 1px solid rgba(0, 255, 204, 0.3);
+            padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 900;
+            color: var(--neon-cyan); display: flex; align-items: center; gap: 6px;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.1); letter-spacing: 0.5px;
+        }
+        .online-dot {
+            width: 7px; height: 7px; background-color: var(--neon-cyan); border-radius: 50%;
+            box-shadow: 0 0 8px var(--neon-cyan);
+            animation: pulseGlow 1.8s infinite ease-in-out;
+        }
+        @keyframes pulseGlow { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+
         .bbs-board {
             height: 280px; overflow-y: auto; background: rgba(2, 5, 12, 0.8);
             border-radius: 12px; padding: 16px; box-sizing: border-box;
@@ -307,7 +324,7 @@
             box-shadow: inset 0 5px 20px rgba(0,0,0,0.6); scroll-behavior: smooth;
         }
 
-        /* 🎬 ぬるぬるチャット出現モーション（アニメーション） */
+        /* 🎬 チャット出現モーション */
         .bbs-row {
             font-size: 12px; line-height: 1.6; padding: 10px 14px; border-radius: 10px;
             background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
@@ -321,9 +338,7 @@
             to { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1.2); }
         }
         
-        /* 管理者メッセージの輝き */
         .bbs-row.admin-msg-row { border-left-color: var(--neon-pink); background: linear-gradient(90deg, rgba(255, 0, 127, 0.05) 0%, transparent 100%); }
-
         .bbs-content-block { flex: 1; min-width: 0; }
         .bbs-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
         .bbs-author { color: var(--neon-cyan); font-weight: 800; font-size: 13px; letter-spacing: 0.5px; }
@@ -337,37 +352,39 @@
         
         .bbs-time { color: var(--sub-text); font-size: 10px; font-family: monospace; }
         .bbs-text { color: #e2e8f0; word-break: break-all; font-weight: 500; font-size: 13px; }
-        
         .bbs-del-btn {
             background: none; border: none; color: #475569; cursor: pointer;
             padding: 4px 8px; font-size: 13px; display: none; transition: all 0.2s;
         }
         .bbs-del-btn:hover { color: var(--neon-pink); transform: scale(1.2); }
         
-        /* 🔐 名前固定用サイバーフォームフォーム */
-        .bbs-form { display: flex; gap: 10px; margin-top: 16px; align-items: center; }
+        /* 🔐 【バグ修正】名前固定用サイバーフォームフォーム */
+        .bbs-form { display: flex; gap: 8px; margin-top: 16px; align-items: center; width: 100%; box-sizing: border-box; }
         
-        .name-input-container { position: relative; display: flex; align-items: center; width: 120px; }
+        /* 名前入力と鍵ボタンを分けるコンテナ */
+        .name-and-lock-zone { display: flex; align-items: center; gap: 4px; width: 135px; flex-shrink: 0; }
+        
         .bbs-input-name {
             width: 100%; background: rgba(0,0,0,0.7); border: 1px solid var(--card-border);
-            border-radius: 8px; padding: 10px 24px 10px 10px; color: #fff; font-size: 12px; box-sizing: border-box;
-            font-weight: bold; transition: all 0.3s;
+            border-radius: 8px; padding: 10px; color: #fff; font-size: 12px; box-sizing: border-box;
+            font-weight: bold; transition: all 0.3s; text-align: center;
         }
         .bbs-input-name:disabled {
             background: rgba(15, 23, 42, 0.6); border-color: rgba(0, 255, 204, 0.3);
             color: var(--neon-cyan); cursor: not-allowed; text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
         }
         
-        /* 名前ロック解除のトグルボタン */
+        /* 鍵ボタンを外側に完全独立（文字が絶対隠れない） */
         .name-lock-btn {
-            position: absolute; right: 6px; background: none; border: none; color: var(--sub-text);
-            cursor: pointer; font-size: 11px; padding: 4px; transition: color 0.2s;
+            background: rgba(0,0,0,0.5); border: 1px solid var(--card-border); color: var(--sub-text);
+            cursor: pointer; font-size: 12px; width: 32px; height: 35px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;
         }
-        .name-lock-btn.locked { color: var(--neon-cyan); }
-        .name-lock-btn:hover { color: var(--neon-pink); }
+        .name-lock-btn.locked { color: var(--neon-cyan); border-color: var(--neon-cyan); background: rgba(0, 255, 204, 0.05); }
+        .name-lock-btn:hover { color: var(--neon-pink); border-color: var(--neon-pink); }
 
         .bbs-input-text {
-            flex: 1; background: rgba(0,0,0,0.7); border: 1px solid var(--card-border);
+            flex: 1; min-width: 0; background: rgba(0,0,0,0.7); border: 1px solid var(--card-border);
             border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 12px; box-sizing: border-box;
             transition: all 0.3s;
         }
@@ -375,14 +392,14 @@
         
         .bbs-send-btn {
             background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%); color: #030712;
-            border: none; font-weight: 900; padding: 10px 20px; border-radius: 8px; cursor: pointer;
-            font-size: 12px; transition: all 0.2s; letter-spacing: 1px;
+            border: none; font-weight: 900; padding: 10px 16px; border-radius: 8px; cursor: pointer;
+            font-size: 12px; transition: all 0.2s; letter-spacing: 1px; flex-shrink: 0;
         }
         .bbs-send-btn:hover { background: #fff; box-shadow: 0 0 15px var(--neon-cyan); transform: translateY(-1px); }
 
 
         /* ==========================================
-           🔔 REALTIME NOTIFICATION TOAST (新着通知表示)
+           🔔 REALTIME NOTIFICATION TOAST
            ========================================== */
         .toast-container {
             position: fixed; top: 20px; right: 20px; z-index: 1000000;
@@ -392,7 +409,7 @@
             background: rgba(6, 11, 25, 0.95); border: 1px solid var(--neon-cyan);
             border-left: 4px solid var(--neon-cyan); padding: 12px 20px; border-radius: 8px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(0,255,204,0.1);
-            color: #white; pointer-events: auto; min-width: 240px; max-width: 320px;
+            color: white; pointer-events: auto; min-width: 240px; max-width: 320px;
             display: flex; flex-direction: column; gap: 4px;
             transform: translateX(120%); opacity: 0;
             animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
@@ -403,7 +420,6 @@
         
         .toast-head { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 11px; color: var(--neon-cyan); letter-spacing: 1px; }
         .toast-body { font-size: 12px; color: #e2e8f0; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
 
         /* ➕ フローティングクリエイトボタン */
         .add-float-btn {
@@ -450,7 +466,6 @@
             border-radius: 8px; padding: 8px; text-align: center; color: var(--neon-cyan); font-size: 11px;
             font-weight: 800; cursor: pointer; margin-top: 4px; box-sizing: border-box;
         }
-
         .clear-field-btn {
             position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
             background: none; border: none; color: var(--neon-pink); cursor: pointer;
@@ -564,14 +579,19 @@
     <div class="main-container" id="cardsGrid"></div>
     
     <div class="bbs-container">
-        <div class="bbs-title"><i class="fa-solid fa-comments"></i> HUB CHAT (一言掲示板)</div>
+        <div class="bbs-header-zone">
+            <div class="bbs-title"><i class="fa-solid fa-comments"></i> HUB CHAT (一言掲示板)</div>
+            <div class="online-counter" id="onlineCounterView">
+                <div class="online-dot"></div><span id="onlineCountNumber">1</span> 人がオンライン
+            </div>
+        </div>
         <div class="bbs-board" id="bbsBoard">
             <div class="empty-state" style="padding:20px 0;">メッセージを読み込み中...</div>
         </div>
         <div class="bbs-form">
-            <div class="name-input-container">
+            <div class="name-and-lock-zone">
                 <input type="text" id="bbsName" class="bbs-input-name" placeholder="名前" value="名無し" onchange="saveNameToStorage()">
-                <button class="name-lock-btn" id="nameLockBtn" onclick="toggleNameLock()" title="名前の変更ロックを解除"><i class="fa-solid fa-lock"></i></button>
+                <button class="name-lock-btn" id="nameLockBtn" onclick="toggleNameLock()" title="名前をガチ固定する"><i class="fa-solid fa-lock-open"></i></button>
             </div>
             <input type="text" id="bbsText" class="bbs-input-text" placeholder="メッセージを入力（20文字以内）" maxlength="20" onkeydown="if(event.key==='Enter') sendBbsMessage()">
             <button class="bbs-send-btn" onclick="sendBbsMessage()">送信</button>
@@ -699,7 +719,7 @@
         let activeTag = 'all';
         let currentViewMode = 'card';
         let isAdminLoggedIn = false;
-        let isInitialLoadFinished = false; // 初回読み込み判定用
+        let isInitialLoadFinished = false; 
         
         let confirmContext = "delete_card";
         let pendingDeleteId = null;
@@ -731,7 +751,6 @@
             }
         });
 
-        // 📰 ニュース配信前の2段階チェック
         function askPublishNews() {
             const newsInput = document.getElementById('adminNewsInput');
             const newText = newsInput.value.trim();
@@ -748,7 +767,6 @@
             document.getElementById('cyberConfirm').classList.add('active');
         }
 
-        // 📰 ニュース消去前の2段階チェック
         function askClearNews() {
             confirmContext = "clear_news";
             document.getElementById('confirmIcon').innerHTML = `<i class="fa-solid fa-trash-can" style="color:#ff0055;"></i>`;
@@ -762,18 +780,38 @@
         }
 
         // ==========================================
-        // 💬 HUB CHAT コア・同期システム (通知＆名前ロック強化版)
+        // 👥 リアルタイム人数カウンター同期ロジック
+        // ==========================================
+        const myConnectionsRef = database.ref('connections').push();
+        const connectedRef = database.ref('.info/connected');
+
+        connectedRef.on('value', (snap) => {
+            if (snap.val() === true) {
+                myConnectionsRef.onDisconnect().remove();
+                myConnectionsRef.set(true);
+            }
+        });
+
+        database.ref('connections').on('value', (snap) => {
+            const count = snap.numChildren() || 0;
+            document.getElementById('onlineCountNumber').innerText = count;
+        });
+
+        // ==========================================
+        // 💬 HUB CHAT コア・同期システム (ガチ名前ロック対応)
         // ==========================================
         
-        // ページ読み込み時に保存された名前を復元し、自動ロックをかける
         window.addEventListener('DOMContentLoaded', () => {
             const savedName = localStorage.getItem('fc_bbs_username');
+            const isLocked = localStorage.getItem('fc_bbs_namelocked');
             const nameInput = document.getElementById('bbsName');
             const lockBtn = document.getElementById('nameLockBtn');
             
             if (savedName) {
                 nameInput.value = savedName;
-                // 名前がすでに設定されているなら、最初は変更できないようにロックする
+            }
+            
+            if (isLocked === 'true') {
                 nameInput.disabled = true;
                 lockBtn.innerHTML = `<i class="fa-solid fa-lock"></i>`;
                 lockBtn.classList.add('locked');
@@ -784,20 +822,32 @@
             }
         });
 
-        // 名前の変更ロック・アンロックを切り替えるスイッチ機能
+        // 🔐 【バグ修正】誰でも簡単に解除できない頑丈なセキュリティロックに変更
         function toggleNameLock() {
             const nameInput = document.getElementById('bbsName');
             const lockBtn = document.getElementById('nameLockBtn');
             
             if (nameInput.disabled) {
+                // ロックを解除しようとしたとき、管理者じゃなければパスコードを要求する
+                if (!isAdminLoggedIn) {
+                    const pass = prompt("名前の固定ロックを解除するには管理コードを入力してくれ：");
+                    if (pass !== MASTER_CODE) {
+                        alert("コードが違うぜ！名前は固定されたままだ。");
+                        return;
+                    }
+                }
+                // 管理者、または正しいコードを入れた場合は解除できる
                 nameInput.disabled = false;
                 lockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i>`;
                 lockBtn.classList.remove('locked');
+                localStorage.setItem('fc_bbs_namelocked', 'false');
                 nameInput.focus();
             } else {
+                // 新しく名前をロックする処理
                 const finalName = nameInput.value.trim() || '名無し';
                 nameInput.value = finalName;
                 localStorage.setItem('fc_bbs_username', finalName);
+                localStorage.setItem('fc_bbs_namelocked', 'true');
                 nameInput.disabled = true;
                 lockBtn.innerHTML = `<i class="fa-solid fa-lock"></i>`;
                 lockBtn.classList.add('locked');
@@ -810,7 +860,6 @@
             localStorage.setItem('fc_bbs_username', finalName);
         }
 
-        // 🔔 画面にサイバー通知を出現させるシステム
         function spawnNotification(author, text) {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -821,18 +870,16 @@
             `;
             container.appendChild(toast);
             
-            // 4.5秒後に通知要素を自動的に消去
             setTimeout(() => { toast.remove(); }, 4500);
         }
 
-        // Firebaseリアルタイムチャットリスナー
         database.ref('bbs_messages').orderByChild('timestamp').limitToLast(40).on('value', (snapshot) => {
             const board = document.getElementById('bbsBoard');
             board.innerHTML = '';
             
             if (!snapshot.exists()) {
                 board.innerHTML = '<div class="empty-state" style="padding:20px 0;">まだ誰も書き込んでないぜ！最初のメッセージをどうぞ。</div>';
-                isInitialLoadFinished = true; // メッセージがなくても初期ロード完了にする
+                isInitialLoadFinished = true; 
                 return;
             }
 
@@ -870,23 +917,20 @@
                 board.insertAdjacentHTML('beforeend', rowHtml);
             });
             
-            // 最新の位置まで自動スクロール
             board.scrollTop = board.scrollHeight;
             refreshChatAdminUI();
 
-            // 🔔 初回読み込み完了後の「本当に新しいチャット」だけ通知を出す
             if (isInitialLoadFinished) {
                 spawnNotification(lastAuthor, lastText);
             }
             
-            isInitialLoadFinished = true; // 最初のデータ読み込みが完了したサイン
+            isInitialLoadFinished = true; 
         });
 
         function escapeHtml(str) {
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
-        // チャット送信
         function sendBbsMessage() {
             const nameInput = document.getElementById('bbsName');
             const textInput = document.getElementById('bbsText');
@@ -895,10 +939,11 @@
 
             if (!text) return;
 
-            // 送信した瞬間に名前入力を自動でロックする
+            // 送信時にまだロックされていなければ自動でロックする
             if (!nameInput.disabled) {
                 nameInput.value = name;
                 localStorage.setItem('fc_bbs_username', name);
+                localStorage.setItem('fc_bbs_namelocked', 'true');
                 nameInput.disabled = true;
                 const lockBtn = document.getElementById('nameLockBtn');
                 lockBtn.innerHTML = `<i class="fa-solid fa-lock"></i>`;
@@ -906,7 +951,7 @@
             }
 
             const now = new Date();
-            const timeStr = `${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+            const timeStr = `${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')} ${String(now.getMinutes()).padStart(2,'0')}`;
 
             const msgPack = { 
                 name: name, 
@@ -921,7 +966,6 @@
             .catch(err => alert("送信失敗: " + err.message));
         }
 
-        // チャット消去の確認
         function askDeleteChat(key, event) {
             if(event) event.stopPropagation();
             confirmContext = "delete_chat";
@@ -968,7 +1012,6 @@
             }
         });
 
-        // 🛡️ 管理者認証
         function verifyAdmin() {
             const input = document.getElementById('adminPass').value;
             const floatBtn = document.getElementById('addFloatBtn');
@@ -1033,6 +1076,7 @@
             toggleClearBtn(userEl);
         }
 
+        // テーマ切り替え
         function updateTheme(theme, element) {
             if (theme === 'cyber') document.body.removeAttribute('data-theme');
             else document.body.setAttribute('data-theme', theme);
@@ -1041,6 +1085,7 @@
             document.getElementById('controlPanel').classList.remove('open');
         }
 
+        // 並び替え
         function updateSort(criteria, element) {
             activeSort = criteria; processAndRender();
             element.parentElement.querySelectorAll('.ui-btn').forEach(b => b.classList.remove('active'));
@@ -1048,6 +1093,7 @@
             document.getElementById('controlPanel').classList.remove('open');
         }
 
+        // フィルタータグ
         function filterTag(tag, element) {
             activeTag = tag; processAndRender();
             element.parentElement.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
@@ -1056,6 +1102,7 @@
 
         function filterMembers() { processAndRender(); }
 
+        // メイン描画
         function processAndRender() {
             let workingList = [...localRawData];
             if (activeTag !== 'all') workingList = workingList.filter(m => m.tag === activeTag);
