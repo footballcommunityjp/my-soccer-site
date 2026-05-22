@@ -264,7 +264,7 @@
         .link-btn:hover { box-shadow: 0 0 25px var(--neon-cyan); transform: scale(1.02); }
 
         /* ==========================================
-           💬 HUB CHAT (一言掲示板) ★大幅サイズアップ！
+           💬 HUB CHAT (一言掲示板) ★入力欄超巨大化
            ========================================== */
         .bbs-container {
             width: 95%; max-width: 950px; margin: 50px auto 20px auto;
@@ -272,42 +272,24 @@
             border: 2px solid transparent;
             background-clip: padding-box;
             border-image: linear-gradient(to bottom right, var(--neon-cyan), var(--neon-pink)) 1;
-            border-radius: 1px; padding: 24px; box-sizing: border-box;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 255, 204, 0.05);
-            position: relative; overflow: hidden;
-        }
-        .bbs-container::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(45deg, transparent 48%, rgba(255, 0, 127, 0.03) 50%, transparent 52%);
-            background-size: 10px 10px; pointer-events: none;
+            border-radius: 1px; padding: 24px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            position: relative; overflow: hidden; box-sizing: border-box;
         }
         .bbs-header-zone { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
-        .bbs-title {
-            margin: 0; font-size: 18px; font-weight: 900; letter-spacing: 2.5px;
-            color: #ffffff; display: flex; align-items: center; gap: 10px;
-            text-shadow: 0 0 15px var(--glow-color);
-        }
-        .bbs-title i { color: var(--neon-cyan); filter: drop-shadow(0 0 5px var(--neon-cyan)); }
+        .bbs-title { margin: 0; font-size: 18px; font-weight: 900; letter-spacing: 2.5px; color: #ffffff; display: flex; align-items: center; gap: 10px; }
+        .bbs-title i { color: var(--neon-cyan); }
         
         .online-counter {
             background: rgba(0, 255, 204, 0.07); border: 1px solid rgba(0, 255, 204, 0.3);
             padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: 900;
             color: var(--neon-cyan); display: flex; align-items: center; gap: 6px;
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.1); letter-spacing: 0.5px;
         }
-        .online-dot {
-            width: 7px; height: 7px; background-color: var(--neon-cyan); border-radius: 50%;
-            box-shadow: 0 0 8px var(--neon-cyan);
-            animation: pulseGlow 1.8s infinite ease-in-out;
-        }
-        @keyframes pulseGlow { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+        .online-dot { width: 7px; height: 7px; background-color: var(--neon-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--neon-cyan); }
 
-        /* チャットボードの高さを大幅拡張！ */
         .bbs-board {
-            height: 500px; overflow-y: auto; background: rgba(2, 5, 12, 0.8);
+            height: 450px; overflow-y: auto; background: rgba(2, 5, 12, 0.8);
             border-radius: 12px; padding: 20px; box-sizing: border-box;
             display: flex; flex-direction: column; gap: 16px; border: 1px solid rgba(0, 255, 204, 0.1);
-            box-shadow: inset 0 5px 20px rgba(0,0,0,0.6); scroll-behavior: smooth;
         }
 
         .bbs-row {
@@ -315,7 +297,6 @@
             background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
             display: flex; justify-content: space-between; align-items: flex-start;
             border-left: 4px solid var(--neon-blue); border-bottom: 1px solid rgba(255,255,255,0.03);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             opacity: 0; transform: translateY(12px) scale(0.98);
             animation: chatSlideIn 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
@@ -324,70 +305,66 @@
         .bbs-row.admin-msg-row { border-left-color: var(--neon-pink); background: linear-gradient(90deg, rgba(255, 0, 127, 0.05) 0%, transparent 100%); }
         .bbs-content-block { flex: 1; min-width: 0; }
         .bbs-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
-        .bbs-author { color: var(--neon-cyan); font-weight: 800; font-size: 14px; letter-spacing: 0.5px; }
-        .admin-msg-row .bbs-author { color: #ff55a5; text-shadow: 0 0 10px rgba(255, 0, 127, 0.4); }
-        
-        .bbs-admin-badge {
-            background: linear-gradient(90deg, #ff0055, var(--neon-pink)); color: white;
-            font-size: 9px; font-weight: 900; padding: 1px 6px; border-radius: 4px;
-            box-shadow: 0 0 8px var(--neon-pink); letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-        }
-        
-        .bbs-time { color: var(--sub-text); font-size: 10px; font-family: monospace; }
+        .bbs-author { color: var(--neon-cyan); font-weight: 800; font-size: 14px; }
+        .admin-msg-row .bbs-author { color: #ff55a5; }
+        .bbs-admin-badge { background: linear-gradient(90deg, #ff0055, var(--neon-pink)); color: white; font-size: 9px; font-weight: 900; padding: 1px 6px; border-radius: 4px; }
+        .bbs-time { color: var(--sub-text); font-size: 10px; }
         .bbs-text { color: #e2e8f0; word-break: break-all; font-weight: 500; font-size: 14px; }
-        
-        /* 📸 メディアプレビュー表示用のスタイル */
-        .chat-media-preview { margin-top: 10px; max-width: 100%; max-height: 250px; border-radius: 8px; border: 1px solid var(--card-border); display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .chat-media-preview { margin-top: 10px; max-width: 100%; max-height: 250px; border-radius: 8px; border: 1px solid var(--card-border); display: block; }
 
-        .bbs-del-btn {
-            background: none; border: none; color: #475569; cursor: pointer;
-            padding: 4px 8px; font-size: 14px; display: none; transition: all 0.2s;
-        }
+        .bbs-del-btn { background: none; border: none; color: #475569; cursor: pointer; padding: 4px 8px; font-size: 14px; display: none; }
         .bbs-del-btn:hover { color: var(--neon-pink); transform: scale(1.2); }
         
-        .bbs-form { display: flex; gap: 8px; margin-top: 16px; align-items: center; width: 100%; box-sizing: border-box; }
-        .name-and-lock-zone { display: flex; align-items: center; gap: 4px; width: 135px; flex-shrink: 0; }
-        
+        /* 🚨 スマホでも絶対つぶれない入力フォーム配置 */
+        .bbs-form {
+            display: flex; flex-direction: column; gap: 12px; margin-top: 20px; width: 100%; box-sizing: border-box;
+        }
+        .bbs-input-top-line {
+            display: flex; gap: 10px; width: 100%; box-sizing: border-box; align-items: center;
+        }
+        .name-and-lock-zone {
+            display: flex; align-items: center; gap: 6px; width: 160px; flex-shrink: 0;
+        }
         .bbs-input-name {
-            width: 100%; background: rgba(0,0,0,0.7); border: 1px solid var(--card-border);
-            border-radius: 8px; padding: 10px; color: #fff; font-size: 12px; box-sizing: border-box;
-            font-weight: bold; transition: all 0.3s; text-align: center;
+            width: 100%; background: rgba(0,0,0,0.7); border: 2px solid var(--card-border);
+            border-radius: 10px; padding: 12px; color: #fff; font-size: 14px; box-sizing: border-box;
+            font-weight: bold; text-align: center; height: 48px;
         }
-        .bbs-input-name:disabled {
-            background: rgba(15, 23, 42, 0.6); border-color: rgba(0, 255, 204, 0.3);
-            color: var(--neon-cyan); cursor: not-allowed; text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
-        }
+        .bbs-input-name:disabled { background: rgba(15, 23, 42, 0.6); border-color: var(--neon-cyan); color: var(--neon-cyan); }
         
         .name-lock-btn {
-            background: rgba(0,0,0,0.5); border: 1px solid var(--card-border); color: var(--sub-text);
-            cursor: pointer; font-size: 12px; width: 32px; height: 35px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;
+            background: rgba(0,0,0,0.5); border: 2px solid var(--card-border); color: var(--sub-text);
+            cursor: pointer; font-size: 14px; width: 44px; height: 48px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
-        .name-lock-btn.locked { color: var(--neon-cyan); border-color: var(--neon-cyan); background: rgba(0, 255, 204, 0.05); }
-        .name-lock-btn:hover { color: var(--neon-pink); border-color: var(--neon-pink); }
+        .name-lock-btn.locked { color: var(--neon-cyan); border-color: var(--neon-cyan); }
 
-        .bbs-input-text {
-            flex: 1; min-width: 0; background: rgba(0,0,0,0.7); border: 1px solid var(--card-border);
-            border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 13px; box-sizing: border-box;
-            transition: all 0.3s;
-        }
-        .bbs-input-text:focus { border-color: var(--neon-pink); box-shadow: 0 0 10px rgba(255,0,127,0.15); outline: none; }
-        
-        /* クリップ/カメラボタン */
+        /* クリップ/カメラボタンを押しやすく拡大 */
         .bbs-media-attach-btn {
-            background: rgba(0,0,0,0.5); border: 1px solid var(--card-border); color: var(--neon-cyan);
-            cursor: pointer; font-size: 15px; width: 38px; height: 35px; border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;
+            background: rgba(0,0,0,0.5); border: 2px solid var(--card-border); color: var(--neon-cyan);
+            cursor: pointer; font-size: 18px; width: 54px; height: 48px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
         }
-        .bbs-media-attach-btn:hover { color: #fff; border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0,255,204,0.3); }
         .bbs-media-attach-btn.attached { color: #000; background: var(--neon-cyan); border-color: var(--neon-cyan); }
 
+        /* メッセージ入力欄をめちゃくちゃデカく */
+        .bbs-input-main-line {
+            display: flex; gap: 10px; width: 100%; box-sizing: border-box;
+        }
+        .bbs-input-text {
+            flex: 1; min-width: 0; background: rgba(0,0,0,0.7); border: 2px solid var(--card-border);
+            border-radius: 10px; padding: 14px; color: #fff; font-size: 15px; box-sizing: border-box;
+            height: 54px;
+        }
+        .bbs-input-text:focus { border-color: var(--neon-pink); outline: none; }
+        
+        /* 送信ボタンを下に大きく配置 */
         .bbs-send-btn {
             background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%); color: #030712;
-            border: none; font-weight: 900; padding: 10px 20px; border-radius: 8px; cursor: pointer;
-            font-size: 13px; transition: all 0.2s; letter-spacing: 1px; flex-shrink: 0;
+            border: none; font-weight: 900; padding: 14px; border-radius: 10px; cursor: pointer;
+            font-size: 15px; letter-spacing: 2px; width: 100%; box-sizing: border-box; height: 52px;
         }
-        .bbs-send-btn:hover { background: #fff; box-shadow: 0 0 15px var(--neon-cyan); transform: translateY(-1px); }
+        .bbs-send-btn:hover { background: #fff; box-shadow: 0 0 15px var(--neon-cyan); }
 
         /* ==========================================
            🔔 REALTIME NOTIFICATION TOAST
@@ -396,15 +373,13 @@
         .cyber-toast {
             background: rgba(6, 11, 25, 0.95); border: 1px solid var(--neon-cyan);
             border-left: 4px solid var(--neon-cyan); padding: 12px 20px; border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(0,255,204,0.1);
             color: white; pointer-events: auto; min-width: 240px; max-width: 320px;
-            display: flex; flex-direction: column; gap: 4px;
-            transform: translateX(120%); opacity: 0;
+            display: flex; flex-direction: column; gap: 4px; transform: translateX(120%); opacity: 0;
             animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, toastOut 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards 4s;
         }
         @keyframes toastIn { to { transform: translateX(0); opacity: 1; } }
         @keyframes toastOut { to { transform: translateX(150%); opacity: 0; } }
-        .toast-head { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 11px; color: var(--neon-cyan); letter-spacing: 1px; }
+        .toast-head { font-weight: 900; font-size: 11px; color: var(--neon-cyan); }
         .toast-body { font-size: 12px; color: #e2e8f0; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
         .add-float-btn {
@@ -431,19 +406,19 @@
             transform: translateY(30px) scale(0.95); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .modal-mask.active .modal-window { transform: translateY(0) scale(1); }
-        .modal-window h2 { margin: 0 0 25px 0; font-size: 20px; color: var(--neon-cyan); text-align: center; font-weight: 800; letter-spacing: 1px; }
+        .modal-window h2 { margin: 0 0 25px 0; font-size: 20px; color: var(--neon-cyan); text-align: center; font-weight: 800; }
         
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .input-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; position: relative; }
-        .input-group label { font-size: 11px; color: var(--sub-text); font-weight: 800; letter-spacing: 0.5px; display: flex; justify-content: space-between; }
+        .input-group label { font-size: 11px; color: var(--sub-text); font-weight: 800; display: flex; justify-content: space-between; }
         
         .input-wrapper { position: relative; width: 100%; }
         .input-group input, .input-group select {
             width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--card-border);
             border-radius: 8px; padding: 11px 32px 11px 14px; color: white; font-size: 13px;
-            transition: border-color 0.2s, box-shadow 0.2s; box-sizing: border-box;
+            box-sizing: border-box;
         }
-        .input-group input:focus, .input-group select:focus { border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0,255,204,0.2); outline: none; }
+        .input-group input:focus, .input-group select:focus { border-color: var(--neon-cyan); outline: none; }
         
         .custom-file-upload {
             display: block; width: 100%; background: rgba(255,255,255,0.02); border: 1px dashed var(--neon-cyan);
@@ -457,7 +432,7 @@
         }
         
         .actions-row { display: flex; gap: 12px; margin-top: 25px; }
-        .form-btn { flex: 1; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; border: none; transition: all 0.2s; }
+        .form-btn { flex: 1; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; border: none; }
         .form-btn.back { background: #1e293b; color: #94a3b8; }
         .form-btn.go { background: var(--neon-cyan); color: #030712; }
 
@@ -470,18 +445,17 @@
         .confirm-mask.active { opacity: 1; pointer-events: auto; }
         .confirm-window {
             background: #090d16; border: 2px solid var(--neon-pink); border-radius: 16px;
-            padding: 24px; width: 90%; max-width: 360px; text-align: center;
-            box-shadow: 0 0 40px rgba(255, 0, 127, 0.25); box-sizing: border-box;
+            padding: 24px; width: 90%; max-width: 360px; text-align: center; box-sizing: border-box;
             transform: scale(0.9) translateY(20px); transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .confirm-mask.active .confirm-window { transform: scale(1) translateY(0); }
-        .confirm-icon { font-size: 42px; color: var(--neon-pink); margin-bottom: 15px; text-shadow: 0 0 15px rgba(255, 0, 127, 0.4); }
+        .confirm-icon { font-size: 42px; color: var(--neon-pink); margin-bottom: 15px; }
         .confirm-title { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 8px; }
         .confirm-msg { font-size: 13px; color: #94a3b8; line-height: 1.5; margin-bottom: 22px; }
         .confirm-actions { display: flex; gap: 10px; }
-        .confirm-btn { flex: 1; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; border: none; transition: all 0.2s; }
+        .confirm-btn { flex: 1; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 13px; cursor: pointer; border: none; }
         .confirm-btn.no { background: #1e293b; color: #fff; }
-        .confirm-btn.yes { background: linear-gradient(90deg, #ff0055, var(--neon-pink)); color: #fff; box-shadow: 0 4px 15px rgba(255, 0, 127, 0.3); }
+        .confirm-btn.yes { background: linear-gradient(90deg, #ff0055, var(--neon-pink)); color: #fff; }
 
         @keyframes cardEntrance { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
         .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--sub-text); font-size: 14px; }
@@ -568,22 +542,29 @@
                 <div class="online-dot"></div><span id="onlineCountNumber">1</span> 人がオンライン
             </div>
         </div>
+        
         <div class="bbs-board" id="bbsBoard">
             <div class="empty-state" style="padding:20px 0;">メッセージを読み込み中...</div>
         </div>
+
         <div class="bbs-form">
-            <div class="name-and-lock-zone">
-                <input type="text" id="bbsName" class="bbs-input-name" placeholder="名前" value="名無し" onchange="saveNameToStorage()">
-                <button class="name-lock-btn" id="nameLockBtn" onclick="toggleNameLock()" title="名前をガチ固定する"><i class="fa-solid fa-lock-open"></i></button>
+            <div class="bbs-input-top-line">
+                <div class="name-and-lock-zone">
+                    <input type="text" id="bbsName" class="bbs-input-name" placeholder="名前" value="名無し" onchange="saveNameToStorage()">
+                    <button class="name-lock-btn" id="nameLockBtn" onclick="toggleNameLock()" title="名前を固定する"><i class="fa-solid fa-lock-open"></i></button>
+                </div>
+                
+                <button class="bbs-media-attach-btn" id="bbsMediaBtn" onclick="document.getElementById('bbsFilePicker').click()" title="写真または動画を選択"><i class="fa-solid fa-camera"></i></button>
+                <input type="file" id="bbsFilePicker" accept="image/*,video/*" style="display:none;" onchange="handleChatMediaSelect(this)">
+                <input type="hidden" id="bbsMediaDataHolder">
+                <input type="hidden" id="bbsMediaTypeHolder">
             </div>
             
-            <button class="bbs-media-attach-btn" id="bbsMediaBtn" onclick="document.getElementById('bbsFilePicker').click()" title="写真または動画を選択"><i class="fa-solid fa-camera"></i></button>
-            <input type="file" id="bbsFilePicker" accept="image/*,video/*" style="display:none;" onchange="handleChatMediaSelect(this)">
-            <input type="hidden" id="bbsMediaDataHolder">
-            <input type="hidden" id="bbsMediaTypeHolder">
-
-            <input type="text" id="bbsText" class="bbs-input-text" placeholder="メッセージを入力（写真/動画のみの送信もOK）" onkeydown="if(event.key==='Enter') sendBbsMessage()">
-            <button class="bbs-send-btn" onclick="sendBbsMessage()">送信</button>
+            <div class="bbs-input-main-line">
+                <input type="text" id="bbsText" class="bbs-input-text" placeholder="メッセージを入力（ファイルのみでも送信OK）" onkeydown="if(event.key==='Enter') sendBbsMessage()">
+            </div>
+            
+            <button class="bbs-send-btn" onclick="sendBbsMessage()">送信する</button>
         </div>
     </div>
     
@@ -748,7 +729,6 @@
             document.getElementById('confirmYesBtn').innerText = "配信開始";
             document.getElementById('confirmYesBtn').style.background = "var(--neon-cyan)";
             document.getElementById('confirmYesBtn').style.color = "#030712";
-            document.getElementById('confirmYesBtn').style.boxShadow = "0 4px 15px rgba(0, 255, 204, 0.3)";
             document.getElementById('cyberConfirm').classList.add('active');
         }
 
@@ -760,20 +740,23 @@
             document.getElementById('confirmYesBtn').innerText = "速報を消去";
             document.getElementById('confirmYesBtn').style.background = "#ff0055";
             document.getElementById('confirmYesBtn').style.color = "#fff";
-            document.getElementById('confirmYesBtn').style.boxShadow = "0 4px 15px rgba(255, 0, 85, 0.3)";
             document.getElementById('cyberConfirm').classList.add('active');
         }
 
-        const myConnectionsRef = database.ref('connections').push();
+        // 👥 【修正版】ガチのリアルタイム人数カウント
+        const myUserId = 'user_' + Math.floor(Math.random() * 1000000);
+        const myPresenceRef = database.ref('online_users/' + myUserId);
         const connectedRef = database.ref('.info/connected');
+        
         connectedRef.on('value', (snap) => {
             if (snap.val() === true) {
-                myConnectionsRef.onDisconnect().remove();
-                myConnectionsRef.set(true);
+                myPresenceRef.onDisconnect().remove();
+                myPresenceRef.set({ timestamp: Date.now() });
             }
         });
-        database.ref('connections').on('value', (snap) => {
-            const count = snap.numChildren() || 0;
+        
+        database.ref('online_users').on('value', (snap) => {
+            const count = snap.numChildren() || 1;
             document.getElementById('onlineCountNumber').innerText = count;
         });
 
@@ -810,7 +793,7 @@
                     return;
                 }
 
-                const pass = prompt("名前の固定を解除するためのパスコードを入力してくれ：\n（※自分で設定したロック解除パスワード、または管理コード）");
+                const pass = prompt("名前の固定を解除するためのパスコードを入力してくれ：");
                 const savedUnlockKey = localStorage.getItem('fc_bbs_unlockkey');
 
                 if (pass === MASTER_CODE || (savedUnlockKey && pass === savedUnlockKey)) {
@@ -820,11 +803,11 @@
                     localStorage.setItem('fc_bbs_namelocked', 'false');
                     nameInput.focus();
                 } else {
-                    alert("コードが違うぜ！名前は固定されたままだ。");
+                    alert("コードが違うぜ！名前は固定されたまだ。");
                 }
             } else {
                 const finalName = nameInput.value.trim() || '名無し';
-                const userKey = prompt("この名前をロックするぜ！\n次にロックを解除するときに使う【自分だけの秘密のパスワード】を自由に決めて入力してくれ：");
+                const userKey = prompt("ロック解除用の【パスワード】を決めて入力してくれ：");
                 
                 if (!userKey || userKey.trim() === "") {
                     alert("パスワードが空っぽだからロックを中止したぜ！");
@@ -861,13 +844,11 @@
             setTimeout(() => { toast.remove(); }, 4500);
         }
 
-        // 📸 チャットでファイル（写真・動画）が選ばれたときの処理
         function handleChatMediaSelect(input) {
             const file = input.files[0];
             const btn = document.getElementById('bbsMediaBtn');
             if (!file) return;
 
-            // ファイルサイズ制限 (大体10MB以上は弾く)
             if (file.size > 10 * 1024 * 1024) {
                 alert("ファイルが大きすぎるぜ！10MB以下の写真か動画にしてくれ。");
                 input.value = '';
@@ -908,7 +889,6 @@
                 const adminBadge = isAdmin ? `<span class="bbs-admin-badge"><i class="fa-solid fa-crown"></i> ADMIN</span>` : '';
                 const rowClass = isAdmin ? 'bbs-row admin-msg-row' : 'bbs-row';
 
-                // 📸 メディアデータ（写真・動画）の埋め込み判定
                 let mediaHtml = '';
                 if (msg.mediaData) {
                     if (msg.mediaType === 'video') {
@@ -952,7 +932,6 @@
             const mediaData = document.getElementById('bbsMediaDataHolder').value;
             const mediaType = document.getElementById('bbsMediaTypeHolder').value;
 
-            // テキストもメディアも両方空っぽなら送信しない
             if (!text && !mediaData) return;
 
             if (!nameInput.disabled) {
@@ -974,7 +953,6 @@
                 isAdminMessage: isAdminLoggedIn
             };
 
-            // メディア情報があればパッキング
             if (mediaData) {
                 msgPack.mediaData = mediaData;
                 msgPack.mediaType = mediaType;
@@ -983,7 +961,6 @@
             database.ref('bbs_messages').push(msgPack)
             .then(() => { 
                 textInput.value = ''; 
-                // メディア選択のリセット
                 document.getElementById('bbsMediaDataHolder').value = '';
                 document.getElementById('bbsMediaTypeHolder').value = '';
                 document.getElementById('bbsFilePicker').value = '';
@@ -1004,7 +981,6 @@
             document.getElementById('confirmYesBtn').innerText = "メッセージ削除";
             document.getElementById('confirmYesBtn').style.background = "#ff0055";
             document.getElementById('confirmYesBtn').style.color = "#fff";
-            document.getElementById('confirmYesBtn').style.boxShadow = "0 4px 15px rgba(255, 0, 85, 0.3)";
             document.getElementById('cyberConfirm').classList.add('active');
         }
 
@@ -1234,7 +1210,6 @@
             document.getElementById('confirmIcon').innerHTML = `<i class="fa-solid fa-triangle-exclamation" style="color:var(--neon-pink);"></i>`;
             document.getElementById('confirmTitle').innerText = "WARNING SYSTEM";
             document.getElementById('confirmMsg').innerHTML = `本当に <strong>【${name}】</strong> のカードを消去するんだな？`;
-            document.getElementById('confirmYesBtn').innerText = "DELETE";
             document.getElementById('cyberConfirm').classList.add('active');
         }
 
