@@ -145,7 +145,7 @@
             display: none; align-items: center; overflow: hidden; height: 34px;
             box-shadow: inset 0 0 10px rgba(255, 0, 127, 0.1); margin: 2px 0;
         }
-        .ticker-wrapper.active { display: flex; } /* ニュースがある時だけ出現 */
+        .ticker-wrapper.active { display: flex; }
         .ticker-badge {
             background: linear-gradient(135deg, #ff0055, var(--neon-pink)); color: white;
             font-size: 10px; font-weight: 900; padding: 0 12px; height: 100%;
@@ -200,10 +200,7 @@
             display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px;
             justify-content: center;
         }
-
-        .main-container.gallery-mode {
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; padding: 30px 15px;
-        }
+        .main-container.gallery-mode { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; padding: 30px 15px; }
 
         /* 🃏 サイバーカード */
         .member-card {
@@ -277,62 +274,136 @@
         }
         .link-btn:hover { box-shadow: 0 0 25px var(--neon-cyan); transform: scale(1.02); }
 
-        /* 💬 リアルタイム一言掲示板 (BBS) 強化スタイル */
+
+        /* ==========================================
+           💬 HUB CHAT (超強化プレミアムサイバーBBS)
+           ========================================== */
         .bbs-container {
-            width: 90%; max-width: 700px; margin: 40px auto 10px auto;
-            background: rgba(6, 11, 25, 0.7); border: 1px solid var(--card-border);
-            border-radius: 16px; padding: 20px; box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            width: 92%; max-width: 750px; margin: 50px auto 20px auto;
+            background: linear-gradient(135deg, rgba(10, 20, 42, 0.85) 0%, rgba(5, 10, 25, 0.95) 100%);
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            border-image: linear-gradient(to bottom right, var(--neon-cyan), var(--neon-pink)) 1;
+            border-radius: 1px; padding: 24px; box-sizing: border-box;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), 0 0 30px rgba(0, 255, 204, 0.05);
+            position: relative; overflow: hidden;
+        }
+        .bbs-container::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent 48%, rgba(255, 0, 127, 0.03) 50%, transparent 52%);
+            background-size: 10px 10px; pointer-events: none;
         }
         .bbs-title {
-            margin: 0 0 15px 0; font-size: 15px; font-weight: 900; letter-spacing: 1.5px;
-            color: var(--neon-cyan); display: flex; align-items: center; gap: 8px;
+            margin: 0 0 18px 0; font-size: 16px; font-weight: 900; letter-spacing: 2.5px;
+            color: #ffffff; display: flex; align-items: center; gap: 10px;
+            text-shadow: 0 0 15px var(--glow-color);
         }
-        .bbs-board {
-            height: 220px; overflow-y: auto; background: rgba(0,0,0,0.4);
-            border-radius: 10px; padding: 12px; box-sizing: border-box;
-            display: flex; flex-direction: column; gap: 10px; border: 1px solid rgba(255,255,255,0.02);
-        }
-        .bbs-row {
-            font-size: 12px; line-height: 1.5; padding: 8px; border-radius: 8px;
-            background: rgba(255,255,255,0.01); display: flex; justify-content: space-between; align-items: flex-start;
-            border-bottom: 1px solid rgba(255,255,255,0.03); animation: cardEntrance 0.3s ease both;
-        }
-        .bbs-content-block { flex: 1; min-width: 0; }
-        .bbs-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 3px; }
-        .bbs-author { color: var(--neon-blue); font-weight: 800; }
+        .bbs-title i { color: var(--neon-cyan); filter: drop-shadow(0 0 5px var(--neon-cyan)); }
         
-        /* 👑 管理者専用のネオンバッジ（偽装変装防止） */
+        .bbs-board {
+            height: 280px; overflow-y: auto; background: rgba(2, 5, 12, 0.8);
+            border-radius: 12px; padding: 16px; box-sizing: border-box;
+            display: flex; flex-direction: column; gap: 12px; border: 1px solid rgba(0, 255, 204, 0.1);
+            box-shadow: inset 0 5px 20px rgba(0,0,0,0.6); scroll-behavior: smooth;
+        }
+
+        /* 🎬 ぬるぬるチャット出現モーション（アニメーション） */
+        .bbs-row {
+            font-size: 12px; line-height: 1.6; padding: 10px 14px; border-radius: 10px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
+            display: flex; justify-content: space-between; align-items: flex-start;
+            border-left: 3px solid var(--neon-blue); border-bottom: 1px solid rgba(255,255,255,0.03);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0; transform: translateY(12px) scale(0.98);
+            animation: chatSlideIn 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+        @keyframes chatSlideIn {
+            to { opacity: 1; transform: translateY(0) scale(1); filter: brightness(1.2); }
+        }
+        
+        /* 管理者メッセージの輝き */
+        .bbs-row.admin-msg-row { border-left-color: var(--neon-pink); background: linear-gradient(90deg, rgba(255, 0, 127, 0.05) 0%, transparent 100%); }
+
+        .bbs-content-block { flex: 1; min-width: 0; }
+        .bbs-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+        .bbs-author { color: var(--neon-cyan); font-weight: 800; font-size: 13px; letter-spacing: 0.5px; }
+        .admin-msg-row .bbs-author { color: #ff55a5; text-shadow: 0 0 10px rgba(255, 0, 127, 0.4); }
+        
         .bbs-admin-badge {
             background: linear-gradient(90deg, #ff0055, var(--neon-pink)); color: white;
             font-size: 9px; font-weight: 900; padding: 1px 6px; border-radius: 4px;
             box-shadow: 0 0 8px var(--neon-pink); letter-spacing: 0.5px; text-shadow: 0 1px 2px rgba(0,0,0,0.5);
         }
         
-        .bbs-time { color: var(--sub-text); font-size: 10px; margin-left: auto; }
-        .bbs-text { color: #fff; word-break: break-all; font-weight: 500; }
+        .bbs-time { color: var(--sub-text); font-size: 10px; font-family: monospace; }
+        .bbs-text { color: #e2e8f0; word-break: break-all; font-weight: 500; font-size: 13px; }
         
-        /* 🗑️ 管理者専用のチャット即座消去ボタン */
         .bbs-del-btn {
-            background: none; border: none; color: #64748b; cursor: pointer;
-            padding: 4px 8px; font-size: 12px; display: none; transition: color 0.2s;
+            background: none; border: none; color: #475569; cursor: pointer;
+            padding: 4px 8px; font-size: 13px; display: none; transition: all 0.2s;
         }
-        .bbs-del-btn:hover { color: var(--neon-pink); }
+        .bbs-del-btn:hover { color: var(--neon-pink); transform: scale(1.2); }
         
-        .bbs-form { display: flex; gap: 8px; margin-top: 12px; }
+        /* 🔐 名前固定用サイバーフォームフォーム */
+        .bbs-form { display: flex; gap: 10px; margin-top: 16px; align-items: center; }
+        
+        .name-input-container { position: relative; display: flex; align-items: center; width: 120px; }
         .bbs-input-name {
-            width: 90px; background: rgba(0,0,0,0.6); border: 1px solid var(--card-border);
-            border-radius: 6px; padding: 8px; color: #fff; font-size: 12px; box-sizing: border-box;
+            width: 100%; background: rgba(0,0,0,0.7); border: 1px solid var(--card-border);
+            border-radius: 8px; padding: 10px 24px 10px 10px; color: #fff; font-size: 12px; box-sizing: border-box;
+            font-weight: bold; transition: all 0.3s;
         }
+        .bbs-input-name:disabled {
+            background: rgba(15, 23, 42, 0.6); border-color: rgba(0, 255, 204, 0.3);
+            color: var(--neon-cyan); cursor: not-allowed; text-shadow: 0 0 5px rgba(0, 255, 204, 0.3);
+        }
+        
+        /* 名前ロック解除のトグルボタン */
+        .name-lock-btn {
+            position: absolute; right: 6px; background: none; border: none; color: var(--sub-text);
+            cursor: pointer; font-size: 11px; padding: 4px; transition: color 0.2s;
+        }
+        .name-lock-btn.locked { color: var(--neon-cyan); }
+        .name-lock-btn:hover { color: var(--neon-pink); }
+
         .bbs-input-text {
-            flex: 1; background: rgba(0,0,0,0.6); border: 1px solid var(--card-border);
-            border-radius: 6px; padding: 8px; color: #fff; font-size: 12px; box-sizing: border-box;
+            flex: 1; background: rgba(0,0,0,0.7); border: 1px solid var(--card-border);
+            border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 12px; box-sizing: border-box;
+            transition: all 0.3s;
         }
+        .bbs-input-text:focus { border-color: var(--neon-pink); box-shadow: 0 0 10px rgba(255,0,127,0.15); outline: none; }
+        
         .bbs-send-btn {
-            background: var(--neon-cyan); color: #030712; border: none; font-weight: 900;
-            padding: 0 16px; border-radius: 6px; cursor: pointer; font-size: 12px; transition: all 0.2s;
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%); color: #030712;
+            border: none; font-weight: 900; padding: 10px 20px; border-radius: 8px; cursor: pointer;
+            font-size: 12px; transition: all 0.2s; letter-spacing: 1px;
         }
-        .bbs-send-btn:hover { background: #fff; box-shadow: 0 0 10px var(--neon-cyan); }
+        .bbs-send-btn:hover { background: #fff; box-shadow: 0 0 15px var(--neon-cyan); transform: translateY(-1px); }
+
+
+        /* ==========================================
+           🔔 REALTIME NOTIFICATION TOAST (新着通知表示)
+           ========================================== */
+        .toast-container {
+            position: fixed; top: 20px; right: 20px; z-index: 1000000;
+            display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+        }
+        .cyber-toast {
+            background: rgba(6, 11, 25, 0.95); border: 1px solid var(--neon-cyan);
+            border-left: 4px solid var(--neon-cyan); padding: 12px 20px; border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 15px rgba(0,255,204,0.1);
+            color: #white; pointer-events: auto; min-width: 240px; max-width: 320px;
+            display: flex; flex-direction: column; gap: 4px;
+            transform: translateX(120%); opacity: 0;
+            animation: toastIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+                       toastOut 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045) forwards 4s;
+        }
+        @keyframes toastIn { to { transform: translateX(0); opacity: 1; } }
+        @keyframes toastOut { to { transform: translateX(150%); opacity: 0; } }
+        
+        .toast-head { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 11px; color: var(--neon-cyan); letter-spacing: 1px; }
+        .toast-body { font-size: 12px; color: #e2e8f0; font-weight: bold; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
 
         /* ➕ フローティングクリエイトボタン */
         .add-float-btn {
@@ -420,6 +491,8 @@
 </head>
 <body>
 
+    <div class="toast-container" id="toastContainer"></div>
+
     <div class="header-wrapper">
         <div class="header-main">
             <h1>⚽ FOOTBALL COMMUNITY JP</h1>
@@ -496,8 +569,11 @@
             <div class="empty-state" style="padding:20px 0;">メッセージを読み込み中...</div>
         </div>
         <div class="bbs-form">
-            <input type="text" id="bbsName" class="bbs-input-name" placeholder="名前" value="名無し">
-            <input type="text" id="bbsText" class="bbs-input-text" placeholder="ここにメッセージを入力（20文字以内）" maxlength="20">
+            <div class="name-input-container">
+                <input type="text" id="bbsName" class="bbs-input-name" placeholder="名前" value="名無し" onchange="saveNameToStorage()">
+                <button class="name-lock-btn" id="nameLockBtn" onclick="toggleNameLock()" title="名前の変更ロックを解除"><i class="fa-solid fa-lock"></i></button>
+            </div>
+            <input type="text" id="bbsText" class="bbs-input-text" placeholder="メッセージを入力（20文字以内）" maxlength="20" onkeydown="if(event.key==='Enter') sendBbsMessage()">
             <button class="bbs-send-btn" onclick="sendBbsMessage()">送信</button>
         </div>
     </div>
@@ -622,9 +698,10 @@
         let activeSort = 'default';
         let activeTag = 'all';
         let currentViewMode = 'card';
-        let isAdminLoggedIn = false; // 管理者状態フラグ
+        let isAdminLoggedIn = false;
+        let isInitialLoadFinished = false; // 初回読み込み判定用
         
-        let confirmContext = "delete_card"; // delete_card | publish_news | clear_news | delete_chat
+        let confirmContext = "delete_card";
         let pendingDeleteId = null;
         let pendingDeleteChatKey = null;
 
@@ -635,7 +712,7 @@
             processAndRender();
         });
 
-        // 📰 ライブニュース速報の同期システム（最初は非表示）
+        // 📰 ライブニュース速報の同期システム
         database.ref('live_news_flash').on('value', (snapshot) => {
             const currentNews = snapshot.val();
             const tickerWrapper = document.getElementById('liveTickerWrapper');
@@ -684,17 +761,84 @@
             document.getElementById('cyberConfirm').classList.add('active');
         }
 
-        // 💬 掲示板データのリアルタイム同期（タイムスタンプで順番バグを完全に修正）
+        // ==========================================
+        // 💬 HUB CHAT コア・同期システム (通知＆名前ロック強化版)
+        // ==========================================
+        
+        // ページ読み込み時に保存された名前を復元し、自動ロックをかける
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('fc_bbs_username');
+            const nameInput = document.getElementById('bbsName');
+            const lockBtn = document.getElementById('nameLockBtn');
+            
+            if (savedName) {
+                nameInput.value = savedName;
+                // 名前がすでに設定されているなら、最初は変更できないようにロックする
+                nameInput.disabled = true;
+                lockBtn.innerHTML = `<i class="fa-solid fa-lock"></i>`;
+                lockBtn.classList.add('locked');
+            } else {
+                nameInput.disabled = false;
+                lockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i>`;
+                lockBtn.classList.remove('locked');
+            }
+        });
+
+        // 名前の変更ロック・アンロックを切り替えるスイッチ機能
+        function toggleNameLock() {
+            const nameInput = document.getElementById('bbsName');
+            const lockBtn = document.getElementById('nameLockBtn');
+            
+            if (nameInput.disabled) {
+                nameInput.disabled = false;
+                lockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i>`;
+                lockBtn.classList.remove('locked');
+                nameInput.focus();
+            } else {
+                const finalName = nameInput.value.trim() || '名無し';
+                nameInput.value = finalName;
+                localStorage.setItem('fc_bbs_username', finalName);
+                nameInput.disabled = true;
+                lockBtn.innerHTML = `<i class="fa-solid fa-lock"></i>`;
+                lockBtn.classList.add('locked');
+            }
+        }
+
+        function saveNameToStorage() {
+            const nameInput = document.getElementById('bbsName');
+            const finalName = nameInput.value.trim() || '名無し';
+            localStorage.setItem('fc_bbs_username', finalName);
+        }
+
+        // 🔔 画面にサイバー通知を出現させるシステム
+        function spawnNotification(author, text) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'cyber-toast';
+            toast.innerHTML = `
+                <div class="toast-head"><i class="fa-solid fa-bell"></i> NEW CHAT RECEIVED!</div>
+                <div class="toast-body"><strong>${author}:</strong> ${text}</div>
+            `;
+            container.appendChild(toast);
+            
+            // 4.5秒後に通知要素を自動的に消去
+            setTimeout(() => { toast.remove(); }, 4500);
+        }
+
+        // Firebaseリアルタイムチャットリスナー
         database.ref('bbs_messages').orderByChild('timestamp').limitToLast(40).on('value', (snapshot) => {
             const board = document.getElementById('bbsBoard');
             board.innerHTML = '';
             
             if (!snapshot.exists()) {
                 board.innerHTML = '<div class="empty-state" style="padding:20px 0;">まだ誰も書き込んでないぜ！最初のメッセージをどうぞ。</div>';
+                isInitialLoadFinished = true; // メッセージがなくても初期ロード完了にする
                 return;
             }
 
-            // Firebaseから取得したデータを時間順にキレイにレンダリング
+            let lastAuthor = "";
+            let lastText = "";
+
             snapshot.forEach((childSnapshot) => {
                 const key = childSnapshot.key;
                 const msg = childSnapshot.val();
@@ -703,11 +847,15 @@
                 const cleanText = escapeHtml(msg.text || '');
                 const timeStr = msg.time || '';
                 
-                // もし管理者コードが入った状態で送られたメッセージなら、特製バッジを付与
-                const adminBadge = msg.isAdminMessage ? `<span class="bbs-admin-badge"><i class="fa-solid fa-crown"></i> ADMIN</span>` : '';
+                lastAuthor = cleanName;
+                lastText = cleanText;
+
+                const isAdmin = msg.isAdminMessage;
+                const adminBadge = isAdmin ? `<span class="bbs-admin-badge"><i class="fa-solid fa-crown"></i> ADMIN</span>` : '';
+                const rowClass = isAdmin ? 'bbs-row admin-msg-row' : 'bbs-row';
 
                 const rowHtml = `
-                    <div class="bbs-row" id="chat_${key}">
+                    <div class="${rowClass}" id="chat_${key}">
                         <div class="bbs-content-block">
                             <div class="bbs-meta">
                                 <span class="bbs-author">${cleanName}</span>
@@ -722,16 +870,23 @@
                 board.insertAdjacentHTML('beforeend', rowHtml);
             });
             
-            // 常に最新チャットが見えるように一番下までスクロール
+            // 最新の位置まで自動スクロール
             board.scrollTop = board.scrollHeight;
             refreshChatAdminUI();
+
+            // 🔔 初回読み込み完了後の「本当に新しいチャット」だけ通知を出す
+            if (isInitialLoadFinished) {
+                spawnNotification(lastAuthor, lastText);
+            }
+            
+            isInitialLoadFinished = true; // 最初のデータ読み込みが完了したサイン
         });
 
         function escapeHtml(str) {
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
-        // メッセージ送信システム
+        // チャット送信
         function sendBbsMessage() {
             const nameInput = document.getElementById('bbsName');
             const textInput = document.getElementById('bbsText');
@@ -739,6 +894,16 @@
             const text = textInput.value.trim();
 
             if (!text) return;
+
+            // 送信した瞬間に名前入力を自動でロックする
+            if (!nameInput.disabled) {
+                nameInput.value = name;
+                localStorage.setItem('fc_bbs_username', name);
+                nameInput.disabled = true;
+                const lockBtn = document.getElementById('nameLockBtn');
+                lockBtn.innerHTML = `<i class="fa-solid fa-lock"></i>`;
+                lockBtn.classList.add('locked');
+            }
 
             const now = new Date();
             const timeStr = `${String(now.getMonth()+1).padStart(2,'0')}/${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
@@ -748,7 +913,7 @@
                 text: text, 
                 time: timeStr, 
                 timestamp: Date.now(),
-                isAdminMessage: isAdminLoggedIn // ログイン状態なら真実の管理者サインを埋め込む
+                isAdminMessage: isAdminLoggedIn
             };
 
             database.ref('bbs_messages').push(msgPack)
@@ -756,7 +921,7 @@
             .catch(err => alert("送信失敗: " + err.message));
         }
 
-        // チャット削除前の確認
+        // チャット消去の確認
         function askDeleteChat(key, event) {
             if(event) event.stopPropagation();
             confirmContext = "delete_chat";
@@ -803,7 +968,7 @@
             }
         });
 
-        // 🛡️ 管理者ログイン認証
+        // 🛡️ 管理者認証
         function verifyAdmin() {
             const input = document.getElementById('adminPass').value;
             const floatBtn = document.getElementById('addFloatBtn');
@@ -824,7 +989,6 @@
             refreshChatAdminUI();
         }
 
-        // 管理者状態に合わせてチャットの削除ボタン表示を切り替える
         function refreshChatAdminUI() {
             const delButtons = document.querySelectorAll('.bbs-del-btn');
             delButtons.forEach(btn => {
@@ -1003,6 +1167,7 @@
             document.getElementById('memberModal').classList.add('active');
         }
 
+        document.getElementById('memberModal').addEventListener('click', dismissModal);
         function dismissModal() { document.getElementById('memberModal').classList.remove('active'); }
 
         function commitMemberData() {
@@ -1029,7 +1194,6 @@
             database.ref('members/' + targetId).set(pack).then(() => dismissModal()).catch(err => alert("エラー: " + err.message));
         }
 
-        // カード消去用の確認
         function openCyberConfirm(id, name, event) {
             if(event) event.stopPropagation();
             confirmContext = "delete_card";
@@ -1045,16 +1209,13 @@
             document.getElementById('cyberConfirm').classList.add('active');
         }
 
-        // 全てのアクションの最終実行（ポップアップの安全スイッチ）
         function closeCyberConfirm(isConfirmed) {
             document.getElementById('cyberConfirm').classList.remove('active');
             
             if (isConfirmed) {
-                // 1. カード削除
                 if (confirmContext === "delete_card" && pendingDeleteId) {
                     database.ref('members/' + pendingDeleteId).remove();
                 } 
-                // 2. ニュース配信
                 else if (confirmContext === "publish_news") {
                     const newsInput = document.getElementById('adminNewsInput');
                     const newText = newsInput.value.trim();
@@ -1067,20 +1228,16 @@
                         document.getElementById('controlPanel').classList.remove('open');
                     });
                 } 
-                // 3. ニュース一発消去
                 else if (confirmContext === "clear_news") {
                     database.ref('live_news_flash').remove()
                     .then(() => {
                         document.getElementById('controlPanel').classList.remove('open');
                     });
                 }
-                // 4. チャットメッセージ削除
                 else if (confirmContext === "delete_chat" && pendingDeleteChatKey) {
                     database.ref('bbs_messages/' + pendingDeleteChatKey).remove();
                 }
             }
-            
-            // 後片付け
             pendingDeleteId = null;
             pendingDeleteChatKey = null;
         }
