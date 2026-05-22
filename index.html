@@ -264,10 +264,10 @@
         .link-btn:hover { box-shadow: 0 0 25px var(--neon-cyan); transform: scale(1.02); }
 
         /* ==========================================
-           💬 HUB CHAT (一言掲示板)
+           💬 HUB CHAT (一言掲示板) ★大幅サイズアップ！
            ========================================== */
         .bbs-container {
-            width: 92%; max-width: 750px; margin: 50px auto 20px auto;
+            width: 95%; max-width: 950px; margin: 50px auto 20px auto;
             background: linear-gradient(135deg, rgba(10, 20, 42, 0.85) 0%, rgba(5, 10, 25, 0.95) 100%);
             border: 2px solid transparent;
             background-clip: padding-box;
@@ -283,7 +283,7 @@
         }
         .bbs-header-zone { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px; }
         .bbs-title {
-            margin: 0; font-size: 16px; font-weight: 900; letter-spacing: 2.5px;
+            margin: 0; font-size: 18px; font-weight: 900; letter-spacing: 2.5px;
             color: #ffffff; display: flex; align-items: center; gap: 10px;
             text-shadow: 0 0 15px var(--glow-color);
         }
@@ -302,18 +302,19 @@
         }
         @keyframes pulseGlow { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
 
+        /* チャットボードの高さを大幅拡張！ */
         .bbs-board {
-            height: 280px; overflow-y: auto; background: rgba(2, 5, 12, 0.8);
-            border-radius: 12px; padding: 16px; box-sizing: border-box;
-            display: flex; flex-direction: column; gap: 12px; border: 1px solid rgba(0, 255, 204, 0.1);
+            height: 500px; overflow-y: auto; background: rgba(2, 5, 12, 0.8);
+            border-radius: 12px; padding: 20px; box-sizing: border-box;
+            display: flex; flex-direction: column; gap: 16px; border: 1px solid rgba(0, 255, 204, 0.1);
             box-shadow: inset 0 5px 20px rgba(0,0,0,0.6); scroll-behavior: smooth;
         }
 
         .bbs-row {
-            font-size: 12px; line-height: 1.6; padding: 10px 14px; border-radius: 10px;
+            font-size: 13px; line-height: 1.6; padding: 12px 16px; border-radius: 10px;
             background: linear-gradient(90deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.01) 100%);
             display: flex; justify-content: space-between; align-items: flex-start;
-            border-left: 3px solid var(--neon-blue); border-bottom: 1px solid rgba(255,255,255,0.03);
+            border-left: 4px solid var(--neon-blue); border-bottom: 1px solid rgba(255,255,255,0.03);
             box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             opacity: 0; transform: translateY(12px) scale(0.98);
             animation: chatSlideIn 0.45s cubic-bezier(0.25, 1, 0.5, 1) forwards;
@@ -322,8 +323,8 @@
         
         .bbs-row.admin-msg-row { border-left-color: var(--neon-pink); background: linear-gradient(90deg, rgba(255, 0, 127, 0.05) 0%, transparent 100%); }
         .bbs-content-block { flex: 1; min-width: 0; }
-        .bbs-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
-        .bbs-author { color: var(--neon-cyan); font-weight: 800; font-size: 13px; letter-spacing: 0.5px; }
+        .bbs-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+        .bbs-author { color: var(--neon-cyan); font-weight: 800; font-size: 14px; letter-spacing: 0.5px; }
         .admin-msg-row .bbs-author { color: #ff55a5; text-shadow: 0 0 10px rgba(255, 0, 127, 0.4); }
         
         .bbs-admin-badge {
@@ -333,10 +334,14 @@
         }
         
         .bbs-time { color: var(--sub-text); font-size: 10px; font-family: monospace; }
-        .bbs-text { color: #e2e8f0; word-break: break-all; font-weight: 500; font-size: 13px; }
+        .bbs-text { color: #e2e8f0; word-break: break-all; font-weight: 500; font-size: 14px; }
+        
+        /* 📸 メディアプレビュー表示用のスタイル */
+        .chat-media-preview { margin-top: 10px; max-width: 100%; max-height: 250px; border-radius: 8px; border: 1px solid var(--card-border); display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+
         .bbs-del-btn {
             background: none; border: none; color: #475569; cursor: pointer;
-            padding: 4px 8px; font-size: 13px; display: none; transition: all 0.2s;
+            padding: 4px 8px; font-size: 14px; display: none; transition: all 0.2s;
         }
         .bbs-del-btn:hover { color: var(--neon-pink); transform: scale(1.2); }
         
@@ -363,15 +368,24 @@
 
         .bbs-input-text {
             flex: 1; min-width: 0; background: rgba(0,0,0,0.7); border: 1px solid var(--card-border);
-            border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 12px; box-sizing: border-box;
+            border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 13px; box-sizing: border-box;
             transition: all 0.3s;
         }
         .bbs-input-text:focus { border-color: var(--neon-pink); box-shadow: 0 0 10px rgba(255,0,127,0.15); outline: none; }
         
+        /* クリップ/カメラボタン */
+        .bbs-media-attach-btn {
+            background: rgba(0,0,0,0.5); border: 1px solid var(--card-border); color: var(--neon-cyan);
+            cursor: pointer; font-size: 15px; width: 38px; height: 35px; border-radius: 8px;
+            display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0;
+        }
+        .bbs-media-attach-btn:hover { color: #fff; border-color: var(--neon-cyan); box-shadow: 0 0 10px rgba(0,255,204,0.3); }
+        .bbs-media-attach-btn.attached { color: #000; background: var(--neon-cyan); border-color: var(--neon-cyan); }
+
         .bbs-send-btn {
             background: linear-gradient(135deg, var(--neon-cyan) 0%, var(--neon-blue) 100%); color: #030712;
-            border: none; font-weight: 900; padding: 10px 16px; border-radius: 8px; cursor: pointer;
-            font-size: 12px; transition: all 0.2s; letter-spacing: 1px; flex-shrink: 0;
+            border: none; font-weight: 900; padding: 10px 20px; border-radius: 8px; cursor: pointer;
+            font-size: 13px; transition: all 0.2s; letter-spacing: 1px; flex-shrink: 0;
         }
         .bbs-send-btn:hover { background: #fff; box-shadow: 0 0 15px var(--neon-cyan); transform: translateY(-1px); }
 
@@ -562,7 +576,13 @@
                 <input type="text" id="bbsName" class="bbs-input-name" placeholder="名前" value="名無し" onchange="saveNameToStorage()">
                 <button class="name-lock-btn" id="nameLockBtn" onclick="toggleNameLock()" title="名前をガチ固定する"><i class="fa-solid fa-lock-open"></i></button>
             </div>
-            <input type="text" id="bbsText" class="bbs-input-text" placeholder="メッセージを入力（20文字以内）" maxlength="20" onkeydown="if(event.key==='Enter') sendBbsMessage()">
+            
+            <button class="bbs-media-attach-btn" id="bbsMediaBtn" onclick="document.getElementById('bbsFilePicker').click()" title="写真または動画を選択"><i class="fa-solid fa-camera"></i></button>
+            <input type="file" id="bbsFilePicker" accept="image/*,video/*" style="display:none;" onchange="handleChatMediaSelect(this)">
+            <input type="hidden" id="bbsMediaDataHolder">
+            <input type="hidden" id="bbsMediaTypeHolder">
+
+            <input type="text" id="bbsText" class="bbs-input-text" placeholder="メッセージを入力（写真/動画のみの送信もOK）" onkeydown="if(event.key==='Enter') sendBbsMessage()">
             <button class="bbs-send-btn" onclick="sendBbsMessage()">送信</button>
         </div>
     </div>
@@ -679,7 +699,7 @@
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // 🚨 【最重要防衛】管理者コード！ここに全く別の、推測できない英語や数字のパスワードを入れてくれ！
+        // 🛡️ 【最重要防衛】管理者コード！
         const MASTER_CODE = "ここに新しい秘密のコード";
 
         let localRawData = [];
@@ -776,13 +796,11 @@
             }
         });
 
-        // 🛡️ 【バグ修正＆防衛】名前のロック解除は、自分だけが知ってる個別パスワード（または管理者コード）にする
         function toggleNameLock() {
             const nameInput = document.getElementById('bbsName');
             const lockBtn = document.getElementById('nameLockBtn');
             
             if (nameInput.disabled) {
-                // すでに管理ログインしているならそのまま解除OK
                 if (isAdminLoggedIn) {
                     nameInput.disabled = false;
                     lockBtn.innerHTML = `<i class="fa-solid fa-lock-open"></i>`;
@@ -792,7 +810,6 @@
                     return;
                 }
 
-                // ロック時に保存した秘密の合言葉、または管理者コードでのみ解除可能にする
                 const pass = prompt("名前の固定を解除するためのパスコードを入力してくれ：\n（※自分で設定したロック解除パスワード、または管理コード）");
                 const savedUnlockKey = localStorage.getItem('fc_bbs_unlockkey');
 
@@ -806,7 +823,6 @@
                     alert("コードが違うぜ！名前は固定されたままだ。");
                 }
             } else {
-                // 新しく名前をロックするときに、その場で「自分専用の解除用パスワード」を決めさせる！
                 const finalName = nameInput.value.trim() || '名無し';
                 const userKey = prompt("この名前をロックするぜ！\n次にロックを解除するときに使う【自分だけの秘密のパスワード】を自由に決めて入力してくれ：");
                 
@@ -817,7 +833,7 @@
 
                 nameInput.value = finalName;
                 localStorage.setItem('fc_bbs_username', finalName);
-                localStorage.setItem('fc_bbs_unlockkey', userKey.trim()); // ブラウザにこっそり保存
+                localStorage.setItem('fc_bbs_unlockkey', userKey.trim()); 
                 localStorage.setItem('fc_bbs_namelocked', 'true');
                 
                 nameInput.disabled = true;
@@ -845,6 +861,29 @@
             setTimeout(() => { toast.remove(); }, 4500);
         }
 
+        // 📸 チャットでファイル（写真・動画）が選ばれたときの処理
+        function handleChatMediaSelect(input) {
+            const file = input.files[0];
+            const btn = document.getElementById('bbsMediaBtn');
+            if (!file) return;
+
+            // ファイルサイズ制限 (大体10MB以上は弾く)
+            if (file.size > 10 * 1024 * 1024) {
+                alert("ファイルが大きすぎるぜ！10MB以下の写真か動画にしてくれ。");
+                input.value = '';
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('bbsMediaDataHolder').value = e.target.result;
+                document.getElementById('bbsMediaTypeHolder').value = file.type.startsWith('video') ? 'video' : 'image';
+                btn.classList.add('attached');
+                btn.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
+            };
+            reader.readAsDataURL(file);
+        }
+
         database.ref('bbs_messages').orderByChild('timestamp').limitToLast(40).on('value', (snapshot) => {
             const board = document.getElementById('bbsBoard');
             board.innerHTML = '';
@@ -864,10 +903,20 @@
                 const cleanText = escapeHtml(msg.text || '');
                 const timeStr = msg.time || '';
                 
-                lastAuthor = cleanName; lastText = cleanText;
+                lastAuthor = cleanName; lastText = cleanText ? cleanText : "📂 メディアファイルを送信";
                 const isAdmin = msg.isAdminMessage;
                 const adminBadge = isAdmin ? `<span class="bbs-admin-badge"><i class="fa-solid fa-crown"></i> ADMIN</span>` : '';
                 const rowClass = isAdmin ? 'bbs-row admin-msg-row' : 'bbs-row';
+
+                // 📸 メディアデータ（写真・動画）の埋め込み判定
+                let mediaHtml = '';
+                if (msg.mediaData) {
+                    if (msg.mediaType === 'video') {
+                        mediaHtml = `<video src="${msg.mediaData}" class="chat-media-preview" controls></video>`;
+                    } else {
+                        mediaHtml = `<img src="${msg.mediaData}" class="chat-media-preview" alt="chat-pic">`;
+                    }
+                }
 
                 const rowHtml = `
                     <div class="${rowClass}" id="chat_${key}">
@@ -878,6 +927,7 @@
                                 <span class="bbs-time">${timeStr}</span>
                             </div>
                             <div class="bbs-text">${cleanText}</div>
+                            ${mediaHtml}
                         </div>
                         <button class="bbs-del-btn" data-chat-key="${key}" onclick="askDeleteChat('${key}', event)"><i class="fa-solid fa-xmark"></i></button>
                     </div>
@@ -899,13 +949,16 @@
             const name = nameInput.value.trim() || '名無し';
             const text = textInput.value.trim();
 
-            if (!text) return;
+            const mediaData = document.getElementById('bbsMediaDataHolder').value;
+            const mediaType = document.getElementById('bbsMediaTypeHolder').value;
 
-            // 送信時にロックされていなければ、パスワード設定なしの簡易自動ロックをかける
+            // テキストもメディアも両方空っぽなら送信しない
+            if (!text && !mediaData) return;
+
             if (!nameInput.disabled) {
                 nameInput.value = name;
                 localStorage.setItem('fc_bbs_username', name);
-                localStorage.setItem('fc_bbs_unlockkey', "1234"); // 自動時はデフォルト
+                localStorage.setItem('fc_bbs_unlockkey', "1234"); 
                 localStorage.setItem('fc_bbs_namelocked', 'true');
                 nameInput.disabled = true;
                 const lockBtn = document.getElementById('nameLockBtn');
@@ -921,8 +974,23 @@
                 isAdminMessage: isAdminLoggedIn
             };
 
+            // メディア情報があればパッキング
+            if (mediaData) {
+                msgPack.mediaData = mediaData;
+                msgPack.mediaType = mediaType;
+            }
+
             database.ref('bbs_messages').push(msgPack)
-            .then(() => { textInput.value = ''; })
+            .then(() => { 
+                textInput.value = ''; 
+                // メディア選択のリセット
+                document.getElementById('bbsMediaDataHolder').value = '';
+                document.getElementById('bbsMediaTypeHolder').value = '';
+                document.getElementById('bbsFilePicker').value = '';
+                const btn = document.getElementById('bbsMediaBtn');
+                btn.classList.remove('attached');
+                btn.innerHTML = `<i class="fa-solid fa-camera"></i>`;
+            })
             .catch(err => alert("送信失敗: " + err.message));
         }
 
@@ -1026,6 +1094,27 @@
                 userEl.value = '@nitbs_' + Math.floor(Math.random() * 9000 + 1000);
             }
             toggleClearBtn(userEl);
+        }
+
+        document.getElementById('memberModal').addEventListener('click', dismissModal);
+        function dismissModal() { document.getElementById('memberModal').classList.remove('active'); }
+
+        function commitMemberData() {
+            const name = document.getElementById('formName').value.trim();
+            if (!name) { alert("名前は必ず入力してくれ！"); return; }
+            const existingId = document.getElementById('editTargetId').value;
+            const targetId = existingId ? existingId : 'mem_' + Date.now();
+            const b64 = document.getElementById('base64AvatarHolder').value;
+            let finalAvatar = document.getElementById('formAvatar').value.trim();
+            if (b64) finalAvatar = b64;
+            const pack = {
+                id: targetId, tag: document.getElementById('formTag').value, avatar: finalAvatar, name: name,
+                username: document.getElementById('formUser').value.trim() || "@username",
+                followers: parseInt(document.getElementById('formFollowers').value) || 0, followersTxt: document.getElementById('formFollowersTxt').value.trim() || "0",
+                likes: parseInt(document.getElementById('formLikes').value) || 0, likesTxt: document.getElementById('formLikesTxt').value.trim() || "0",
+                following: document.getElementById('formFollowing').value.trim() || "0", tiktokUrl: document.getElementById('formUrl').value.trim() || "https://www.tiktok.com/"
+            };
+            database.ref('members/' + targetId).set(pack).then(() => dismissModal()).catch(err => alert("エラー: " + err.message));
         }
 
         function updateTheme(theme, element) {
@@ -1137,27 +1226,6 @@
             document.getElementById('nameCount').innerText = `${(target.name || "").length}文字`;
             document.querySelectorAll('.modal-window input').forEach(el => toggleClearBtn(el));
             document.getElementById('memberModal').classList.add('active');
-        }
-
-        document.getElementById('memberModal').addEventListener('click', dismissModal);
-        function dismissModal() { document.getElementById('memberModal').classList.remove('active'); }
-
-        function commitMemberData() {
-            const name = document.getElementById('formName').value.trim();
-            if (!name) { alert("名前は必ず入力してくれ！"); return; }
-            const existingId = document.getElementById('editTargetId').value;
-            const targetId = existingId ? existingId : 'mem_' + Date.now();
-            const b64 = document.getElementById('base64AvatarHolder').value;
-            let finalAvatar = document.getElementById('formAvatar').value.trim();
-            if (b64) finalAvatar = b64;
-            const pack = {
-                id: targetId, tag: document.getElementById('formTag').value, avatar: finalAvatar, name: name,
-                username: document.getElementById('formUser').value.trim() || "@username",
-                followers: parseInt(document.getElementById('formFollowers').value) || 0, followersTxt: document.getElementById('formFollowersTxt').value.trim() || "0",
-                likes: parseInt(document.getElementById('formLikes').value) || 0, likesTxt: document.getElementById('formLikesTxt').value.trim() || "0",
-                following: document.getElementById('formFollowing').value.trim() || "0", tiktokUrl: document.getElementById('formUrl').value.trim() || "https://www.tiktok.com/"
-            };
-            database.ref('members/' + targetId).set(pack).then(() => dismissModal()).catch(err => alert("エラー: " + err.message));
         }
 
         function openCyberConfirm(id, name, event) {
